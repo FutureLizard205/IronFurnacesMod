@@ -4,7 +4,6 @@
   "package": "fl205.ironfurnaces.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "entities.MixinTileEntity"
   ],
   "client": [
   ],
