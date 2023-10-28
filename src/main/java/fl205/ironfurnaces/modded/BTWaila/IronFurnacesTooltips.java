@@ -13,7 +13,7 @@ import toufoumaster.btwaila.tooltips.block.FurnaceTooltip;
 public class IronFurnacesTooltips extends FurnaceTooltip {
 	public void addTooltip() {
 		IronFurnaces.LOGGER.info("Adding BTWaila tooltips for: " + this.getClass().getSimpleName());
-		TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntityFurnace.class, this);
+		TooltipGroup tooltipGroup = new TooltipGroup(IronFurnaces.MOD_ID, TileEntityFurnace.class, this);
 		tooltipGroup.addTooltip(TileEntityIronFurnace.class);
 		tooltipGroup.addTooltip(TileEntityGoldFurnace.class);
 		tooltipGroup.addTooltip(TileEntityDiamondFurnace.class);

@@ -1,26 +1,27 @@
 package fl205.ironfurnaces;
 
-import fl205.ironfurnaces.modded.BTWaila.IronFurnacesTooltips;
-import net.fabricmc.api.ModInitializer;
-
 import fl205.ironfurnaces.blocks.DiamondFurnace;
 import fl205.ironfurnaces.blocks.GoldFurnace;
 import fl205.ironfurnaces.blocks.IronFurnace;
 import fl205.ironfurnaces.blocks.SteelFurnace;
-
+import fl205.ironfurnaces.modded.BTWaila.IronFurnacesTooltips;
+import fl205.ironfurnaces.tileEntities.TileEntityDiamondFurnace;
+import fl205.ironfurnaces.tileEntities.TileEntityGoldFurnace;
+import fl205.ironfurnaces.tileEntities.TileEntityIronFurnace;
+import fl205.ironfurnaces.tileEntities.TileEntitySteelFurnace;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.core.item.Item;
 import net.minecraft.client.sound.block.BlockSounds;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
-
-import turniplabs.halplibe.helper.BlockBuilder;
-import turniplabs.halplibe.helper.RecipeHelper;
-import turniplabs.halplibe.util.ConfigHandler;
-
+import net.minecraft.core.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import turniplabs.halplibe.helper.BlockBuilder;
+import turniplabs.halplibe.helper.EntityHelper;
+import turniplabs.halplibe.helper.RecipeHelper;
+import turniplabs.halplibe.util.ConfigHandler;
 
 import java.util.Properties;
 
@@ -158,6 +159,10 @@ public class IronFurnaces implements ModInitializer {
 
 	@Override
     public void onInitialize() {
+		EntityHelper.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
+		EntityHelper.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
+		EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
+		EntityHelper.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
 
 		//Recipes
 		RecipeHelper.Crafting.createRecipe(furnaceIronIdle, 1, new Object[]{
