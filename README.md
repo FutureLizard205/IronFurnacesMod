@@ -9,16 +9,16 @@ Details:
 | Furnace Tier | Fuel Yield | Speed | Block IDs |
 | ------------ | ---------- | ----- | --------- |
 | Iron         | 125%       | 125%  | 664, 665  |
-| Gold         | 85%        | 200%  | 666, 667  |
-| Diamond      | 150%       | 160%  | 668, 669  |
-| Steel        | 250%       | 90%   | 674, 675  |
+| Gold         | 80%        | 160%  | 666, 667  |
+| Diamond      | 150%       | 200%  | 668, 669  |
+| Steel        | 250%       | 100%  | 674, 675  |
 
 All these values can be changed through the config file.
 
 Note: Fuel Yield here is in terms of items smelt per fuel used, not in terms of time burning per fuel used
 
 ### Known Bugs
-- Progress arrow indicator (GUI) doesn't work properly in multiplayer
+- None so far :)
 
 
 ## Depedencies:
