@@ -41,15 +41,15 @@ public class IronFurnaces implements ModInitializer {
 		prop.setProperty("fuelYield.ironFurnace", "125");
 		prop.setProperty("ids.goldFurnaceIdleID", "666");
 		prop.setProperty("ids.goldFurnaceActiveID", "667");
-		prop.setProperty("speed.goldFurnace", "200");
-		prop.setProperty("fuelYield.goldFurnace", "85");
+		prop.setProperty("speed.goldFurnace", "160");
+		prop.setProperty("fuelYield.goldFurnace", "80");
 		prop.setProperty("ids.diamondFurnaceIdleID", "668");
 		prop.setProperty("ids.diamondFurnaceActiveID", "669");
-		prop.setProperty("speed.diamondFurnace", "160");
+		prop.setProperty("speed.diamondFurnace", "200");
 		prop.setProperty("fuelYield.diamondFurnace", "150");
 		prop.setProperty("ids.steelFurnaceIdleID", "674");
 		prop.setProperty("ids.steelFurnaceActiveID", "675");
-		prop.setProperty("speed.steelFurnace", "90");
+		prop.setProperty("speed.steelFurnace", "100");
 		prop.setProperty("fuelYield.steelFurnace", "250");
 
 		config = new ConfigHandler(MOD_ID, prop);
@@ -193,6 +193,7 @@ public class IronFurnaces implements ModInitializer {
 			'A', Item.ingotSteel,
 			'B', furnaceIronIdle
 		});
+
 		if (FabricLoader.getInstance().isModLoaded("btwaila")) {
 			IronFurnacesTooltips ironFurnacesTooltips = new IronFurnacesTooltips();
 			ironFurnacesTooltips.addTooltip();
