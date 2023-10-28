@@ -15,7 +15,7 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 	protected final CustomFurnace furnaceIdle;
 	public TileEntityCustomFurnace(int speedModifier, int fuelYieldModifier, CustomFurnace furnaceIdle){
 		this.speedModifier = speedModifier;
-		this.fuelYieldModifier = (100 * fuelYieldModifier) / speedModifier;
+		this.fuelYieldModifier = fuelYieldModifier;
 		this.furnaceIdle = furnaceIdle;
 		maxCookTime = 20000 / speedModifier;
 	}
@@ -99,6 +99,6 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 	}
 
 	private int getBurnTimeFromItem(ItemStack itemStack) {
-		return itemStack == null ? 0 : ((fuelYieldModifier * (LookupFuelFurnace.instance.getFuelYield(itemStack.getItem().id)))/100);
+		return itemStack == null ? 0 : ((fuelYieldModifier * (LookupFuelFurnace.instance.getFuelYield(itemStack.getItem().id)))/speedModifier);
 	}
 }
