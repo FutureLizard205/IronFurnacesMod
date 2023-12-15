@@ -21,42 +21,55 @@ import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.helper.RecipeHelper;
-import turniplabs.halplibe.util.ConfigHandler;
-
-import java.util.Properties;
+import turniplabs.halplibe.util.TomlConfigHandler;
+import turniplabs.halplibe.util.toml.Toml;
 
 
 public class IronFurnaces implements ModInitializer {
     public static final String MOD_ID = "ironfurnaces";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-	// Config file manager
-	public static final ConfigHandler config;
+	// Config TOML file manager
+
+	public static final TomlConfigHandler config;
 	static {
 		// Config
-		Properties prop = new Properties();
-		prop.setProperty("ids.ironFurnaceIdleID", "664");
-		prop.setProperty("ids.ironFurnaceActiveID", "665");
-		prop.setProperty("speed.ironFurnace", "125");
-		prop.setProperty("fuelYield.ironFurnace", "125");
-		prop.setProperty("ids.goldFurnaceIdleID", "666");
-		prop.setProperty("ids.goldFurnaceActiveID", "667");
-		prop.setProperty("speed.goldFurnace", "160");
-		prop.setProperty("fuelYield.goldFurnace", "80");
-		prop.setProperty("ids.diamondFurnaceIdleID", "668");
-		prop.setProperty("ids.diamondFurnaceActiveID", "669");
-		prop.setProperty("speed.diamondFurnace", "200");
-		prop.setProperty("fuelYield.diamondFurnace", "150");
-		prop.setProperty("ids.steelFurnaceIdleID", "674");
-		prop.setProperty("ids.steelFurnaceActiveID", "675");
-		prop.setProperty("speed.steelFurnace", "100");
-		prop.setProperty("fuelYield.steelFurnace", "250");
+		Toml toml = new Toml("Iron Furnaces Mod Config\nMore info at https://github.com/FutureLizard205/bta-IronFurnacesMod");
 
-		config = new ConfigHandler(MOD_ID, prop);
+		toml.addCategory("recipeEnabled")
+			.addEntry("ironFurnace", true)
+			.addEntry("goldFurnace", true)
+			.addEntry("diamondFurnace", true)
+			.addEntry("steelFurnace", true);
+
+		toml.addCategory("ids")
+			.addEntry("ironFurnaceIdleID", 664)
+		    .addEntry("ironFurnaceActiveID", 665)
+			.addEntry("goldFurnaceIdleID", 666)
+			.addEntry("goldFurnaceActiveID", 667)
+			.addEntry("diamondFurnaceIdleID", 668)
+		    .addEntry("diamondFurnaceActiveID", 669)
+			.addEntry("steelFurnaceIdleID", 674)
+		    .addEntry("steelFurnaceActiveID", 675);
+
+		toml.addCategory( "speed")
+			.addEntry("ironFurnace", 125)
+			.addEntry("goldFurnace", 160)
+			.addEntry("diamondFurnace", 200)
+			.addEntry("steelFurnace", 100);
+
+		toml.addCategory("fuelYield")
+			.addEntry("ironFurnace", 125)
+			.addEntry("goldFurnace", 80)
+			.addEntry("diamondFurnace", 150)
+			.addEntry("steelFurnace", 250);
+
+		config = new TomlConfigHandler(null, MOD_ID, toml);
 	}
 
 
 	// Blocks
+
 	public static final Block furnaceIronIdle = new BlockBuilder(MOD_ID)
 		.setBlockSound(BlockSounds.METAL)
 		.setHardness(5.0F)
@@ -157,43 +170,33 @@ public class IronFurnaces implements ModInitializer {
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
 		.build(new SteelFurnace("furnace.steel.active", config.getInt("ids.steelFurnaceActiveID"), Material.metal, true));
 
+
 	@Override
     public void onInitialize() {
+		// Tile Entities
 		EntityHelper.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
 		EntityHelper.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
 		EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
 		EntityHelper.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
 
 		//Recipes
-		RecipeHelper.Crafting.createRecipe(furnaceIronIdle, 1, new Object[]{
-			"AAA",
-			"ABA",
-			"AAA",
-			'A', Item.ingotIron,
-			'B', Block.furnaceStoneIdle
-		});
-		RecipeHelper.Crafting.createRecipe(furnaceGoldIdle, 1, new Object[]{
-			"AAA",
-			"ABA",
-			"AAA",
-			'A', Item.ingotGold,
-			'B', furnaceIronIdle
-		});
-		RecipeHelper.Crafting.createRecipe(furnaceDiamondIdle, 1, new Object[]{
-			"AAA",
-			"ABA",
-			"AAA",
-			'A', Item.diamond,
-			'B', furnaceGoldIdle
-		});
-		RecipeHelper.Crafting.createRecipe(furnaceSteelIdle, 1, new Object[]{
-			"AAA",
-			"ABA",
-			"AAA",
-			'A', Item.ingotSteel,
-			'B', furnaceIronIdle
-		});
+		String[] names = {"iron", "gold", "diamond", "steel"};
+		Block[] furnaces = {furnaceIronIdle, furnaceGoldIdle, furnaceDiamondIdle, furnaceSteelIdle};
+		Item[] recipeMaterials = {Item.ingotIron, Item.ingotGold, Item.diamond, Item.ingotSteel};
+		Block[] recipeFurnaces = {Block.furnaceStoneIdle, furnaceIronIdle, furnaceGoldIdle, furnaceGoldIdle};
+		for (int i = 0; i < furnaces.length; i++) {
+			if (config.getBoolean("recipeEnabled." + names[i] + "Furnace")) {
+				RecipeHelper.Crafting.createRecipe(furnaces[i], 1, new Object[]{
+					"AAA",
+					"ABA",
+					"AAA",
+					'A', recipeMaterials[i],
+					'B', recipeFurnaces[i]
+				});
+			}
+		}
 
+		// BTWaila Integration
 		if (FabricLoader.getInstance().isModLoaded("btwaila")) {
 			IronFurnacesTooltips ironFurnacesTooltips = new IronFurnacesTooltips();
 			ironFurnacesTooltips.addTooltip();
