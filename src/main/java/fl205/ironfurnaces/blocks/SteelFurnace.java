@@ -7,7 +7,7 @@ import static fl205.ironfurnaces.IronFurnaces.config;
 
 public class SteelFurnace extends CustomFurnace {
 	public SteelFurnace(String key, int id, Material material, boolean flag) {
-		super(key, id, material, flag, config.getInt("ids.steelFurnaceActiveID"), config.getInt("ids.steelFurnaceIdleID"));
+		super(key, id, material, flag, config.getInt("ids.steelFurnaceIdleID") + 1, config.getInt("ids.steelFurnaceIdleID"));
 	}
 	@Override
 	protected TileEntity getNewBlockEntity() {

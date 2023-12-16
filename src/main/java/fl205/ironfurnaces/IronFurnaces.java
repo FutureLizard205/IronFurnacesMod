@@ -4,28 +4,30 @@ import fl205.ironfurnaces.blocks.DiamondFurnace;
 import fl205.ironfurnaces.blocks.GoldFurnace;
 import fl205.ironfurnaces.blocks.IronFurnace;
 import fl205.ironfurnaces.blocks.SteelFurnace;
-import fl205.ironfurnaces.modded.BTWaila.IronFurnacesTooltips;
+// import fl205.ironfurnaces.modded.BTWaila.IronFurnacesTooltips;
 import fl205.ironfurnaces.tileEntities.TileEntityDiamondFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntityGoldFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntityIronFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntitySteelFurnace;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
+// import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.sound.block.BlockSounds;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
-import net.minecraft.core.item.Item;
+// import net.minecraft.core.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
-import turniplabs.halplibe.helper.RecipeHelper;
+// import turniplabs.halplibe.helper.RecipeHelper;
+import turniplabs.halplibe.util.GameStartEntrypoint;
+import turniplabs.halplibe.util.RecipeEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
 
 
-public class IronFurnaces implements ModInitializer {
+public class IronFurnaces implements ModInitializer, GameStartEntrypoint, RecipeEntrypoint {
     public static final String MOD_ID = "ironfurnaces";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -44,13 +46,9 @@ public class IronFurnaces implements ModInitializer {
 
 		toml.addCategory("ids")
 			.addEntry("ironFurnaceIdleID", 664)
-		    .addEntry("ironFurnaceActiveID", 665)
 			.addEntry("goldFurnaceIdleID", 666)
-			.addEntry("goldFurnaceActiveID", 667)
 			.addEntry("diamondFurnaceIdleID", 668)
-		    .addEntry("diamondFurnaceActiveID", 669)
-			.addEntry("steelFurnaceIdleID", 674)
-		    .addEntry("steelFurnaceActiveID", 675);
+			.addEntry("steelFurnaceIdleID", 674);
 
 		toml.addCategory( "speed")
 			.addEntry("ironFurnace", 125)
@@ -93,7 +91,7 @@ public class IronFurnaces implements ModInitializer {
 		.setLuminance(13)
 		.setImmovable()
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
-		.build(new IronFurnace("furnace.iron.active", config.getInt("ids.ironFurnaceActiveID"), Material.metal, true));
+		.build(new IronFurnace("furnace.iron.active", config.getInt("ids.ironFurnaceIdleID") + 1, Material.metal, true));
 
 	public static final Block furnaceGoldIdle = new BlockBuilder(MOD_ID)
 		.setBlockSound(BlockSounds.METAL)
@@ -118,7 +116,7 @@ public class IronFurnaces implements ModInitializer {
 		.setLuminance(13)
 		.setImmovable()
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
-		.build(new GoldFurnace("furnace.gold.active", config.getInt("ids.goldFurnaceActiveID"), Material.metal, true));
+		.build(new GoldFurnace("furnace.gold.active", config.getInt("ids.goldFurnaceIdleID") + 1, Material.metal, true));
 
 	public static final Block furnaceDiamondIdle = new BlockBuilder(MOD_ID)
 		.setBlockSound(BlockSounds.METAL)
@@ -143,7 +141,7 @@ public class IronFurnaces implements ModInitializer {
 		.setLuminance(13)
 		.setImmovable()
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
-		.build(new DiamondFurnace("furnace.diamond.active", config.getInt("ids.diamondFurnaceActiveID"), Material.metal, true));
+		.build(new DiamondFurnace("furnace.diamond.active", config.getInt("ids.diamondFurnaceIdleID") + 1, Material.metal, true));
 
 	public static final Block furnaceSteelIdle = new BlockBuilder(MOD_ID)
 		.setBlockSound(BlockSounds.METAL)
@@ -168,7 +166,7 @@ public class IronFurnaces implements ModInitializer {
 		.setLuminance(13)
 		.setImmovable()
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
-		.build(new SteelFurnace("furnace.steel.active", config.getInt("ids.steelFurnaceActiveID"), Material.metal, true));
+		.build(new SteelFurnace("furnace.steel.active", config.getInt("ids.steelFurnaceIdleID") + 1, Material.metal, true));
 
 
 	@Override
@@ -179,7 +177,7 @@ public class IronFurnaces implements ModInitializer {
 		EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
 		EntityHelper.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
 
-		//Recipes
+		/*Recipes
 		String[] names = {"iron", "gold", "diamond", "steel"};
 		Block[] furnaces = {furnaceIronIdle, furnaceGoldIdle, furnaceDiamondIdle, furnaceSteelIdle};
 		Item[] recipeMaterials = {Item.ingotIron, Item.ingotGold, Item.diamond, Item.ingotSteel};
@@ -195,13 +193,29 @@ public class IronFurnaces implements ModInitializer {
 				});
 			}
 		}
-
-		// BTWaila Integration
+		*/
+		/* BTWaila Integration (awating for BTWaila to update)
 		if (FabricLoader.getInstance().isModLoaded("btwaila")) {
 			IronFurnacesTooltips ironFurnacesTooltips = new IronFurnacesTooltips();
 			ironFurnacesTooltips.addTooltip();
-		}
+		}*/
 
 		LOGGER.info("IronFurnaces mod initialized.");
+	}
+
+
+	@Override
+	public void beforeGameStart() {
+
+	}
+
+	@Override
+	public void afterGameStart() {
+
+	}
+
+	@Override
+	public void onRecipesReady() {
+
 	}
 }

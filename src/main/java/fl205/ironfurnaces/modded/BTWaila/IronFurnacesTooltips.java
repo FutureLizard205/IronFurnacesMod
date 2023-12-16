@@ -1,5 +1,6 @@
 package fl205.ironfurnaces.modded.BTWaila;
 
+/*
 import fl205.ironfurnaces.IronFurnaces;
 import fl205.ironfurnaces.tileEntities.TileEntityDiamondFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntityGoldFurnace;
@@ -21,3 +22,4 @@ public class IronFurnacesTooltips extends FurnaceTooltip {
 		TooltipRegistry.tooltipMap.add(tooltipGroup);
 	}
 }
+*/

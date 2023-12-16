@@ -74,7 +74,7 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 		return true;
 	}
 
-	public void updateFurnaceBlockState(boolean lit, World world, int x, int y, int z) {
+	public static void updateFurnaceBlockState(boolean lit, World world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		TileEntity tileentity = world.getBlockTileEntity(x, y, z);
 		if (tileentity == null) {
@@ -84,9 +84,9 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 		} else {
 			keepFurnaceInventory = true;
 			if (lit) {
-				world.setBlockWithNotify(x, y, z, activeId);
+				world.setBlockWithNotify(x, y, z, tileentity.getBlockType().id+1);
 			} else {
-				world.setBlockWithNotify(x, y, z, idleID);
+				world.setBlockWithNotify(x, y, z, tileentity.getBlockType().id-1);
 			}
 
 			keepFurnaceInventory = false;
@@ -96,7 +96,7 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 		}
 	}
 
-	public void onBlockRemoval(World world, int x, int y, int z) {
+	public void onBlockRemoved(World world, int x, int y, int z, int data) {
 		if (!keepFurnaceInventory) {
 			TileEntityCustomFurnace tileEntityCustomFurnace = (TileEntityCustomFurnace) world.getBlockTileEntity(x, y, z);
 
@@ -125,6 +125,6 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 			}
 		}
 
-		super.onBlockRemoval(world, x, y, z);
+		super.onBlockRemoved(world, x, y, z, data);
 	}
 }

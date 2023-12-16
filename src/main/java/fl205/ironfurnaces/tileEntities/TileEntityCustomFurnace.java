@@ -4,7 +4,9 @@ import fl205.ironfurnaces.blocks.CustomFurnace;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityFurnace;
 import net.minecraft.core.crafting.LookupFuelFurnace;
-import net.minecraft.core.crafting.recipe.RecipesFurnace;
+import net.minecraft.core.data.registry.Registries;
+import net.minecraft.core.data.registry.recipe.RecipeGroup;
+import net.minecraft.core.data.registry.recipe.entry.RecipeEntryFurnace;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 
@@ -21,25 +23,25 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 	}
 	public abstract String getInvName();
 
-	public void updateEntity() {
+	public void tick() {
 		boolean isBurnTimeHigherThan0 = this.currentBurnTime > 0;
 		boolean furnaceUpdated = false;
 		if (this.currentBurnTime > 0) {
 			--this.currentBurnTime;
 		}
 
-		if (!this.worldObj.isClientSide) {
-			if (this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord) == furnaceIdle.id && this.currentBurnTime == 0 && this.furnaceItemStacks[0] == null && this.furnaceItemStacks[1] != null && this.furnaceItemStacks[1].itemID == Block.netherrack.id) {
+		if (this.worldObj != null && !this.worldObj.isClientSide) {
+			if (this.worldObj.getBlockId(this.x, this.y, this.z) == furnaceIdle.id && this.currentBurnTime == 0 && this.furnaceItemStacks[0] == null && this.furnaceItemStacks[1] != null && this.furnaceItemStacks[1].itemID == Block.netherrack.id) {
 				--this.furnaceItemStacks[1].stackSize;
 				if (this.furnaceItemStacks[1].stackSize <= 0) {
 					this.furnaceItemStacks[1] = null;
 				}
 
-				furnaceIdle.updateFurnaceBlockState(true, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+				CustomFurnace.updateFurnaceBlockState(true, this.worldObj, this.x, this.y, this.z);
 				furnaceUpdated = true;
 			}
 
-			if (this.currentBurnTime <= 0 && this.canSmelt()) {
+			if (this.currentBurnTime == 0 && this.canSmelt()) {
 				this.maxBurnTime = this.currentBurnTime = this.getBurnTimeFromItem(this.furnaceItemStacks[1]);
 				if (this.currentBurnTime > 0) {
 					furnaceUpdated = true;
@@ -69,7 +71,7 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 
 			if (isBurnTimeHigherThan0 != this.currentBurnTime > 0) {
 				furnaceUpdated = true;
-				furnaceIdle.updateFurnaceBlockState(this.currentBurnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+				CustomFurnace.updateFurnaceBlockState(this.currentBurnTime > 0, this.worldObj, this.x, this.y, this.z);
 			}
 		}
 
@@ -79,11 +81,18 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 
 	}
 
-	public boolean canSmelt() {
+	private boolean canSmelt() {
 		if (this.furnaceItemStacks[0] == null) {
 			return false;
 		} else {
-			ItemStack itemstack = RecipesFurnace.smelting().getSmeltingResult(this.furnaceItemStacks[0].getItem().id);
+			RecipeGroup<RecipeEntryFurnace> group = Registries.RECIPES.getGroupFromKey("minecraft:furnace");
+			ItemStack itemstack = null;
+            for (RecipeEntryFurnace recipeEntryBase : group) {
+                if (recipeEntryBase instanceof RecipeEntryFurnace && recipeEntryBase.matches(this.furnaceItemStacks[0])) {
+                    itemstack = recipeEntryBase.getOutput();
+                }
+            }
+
 			if (itemstack == null) {
 				return false;
 			} else if (this.furnaceItemStacks[2] == null) {
