@@ -13,6 +13,8 @@ import net.minecraft.core.world.World;
 
 import java.util.Random;
 
+import static fl205.ironfurnaces.IronFurnaces.*;
+
 public abstract class CustomFurnace extends BlockTileEntityRotatable {
 	protected final boolean isActive;
 	protected Random furnaceRand = new Random();
@@ -83,10 +85,17 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 			System.out.println(msg);
 		} else {
 			keepFurnaceInventory = true;
-			if (lit) {
-				world.setBlockWithNotify(x, y, z, tileentity.getBlockType().id+1);
+			int alreadyLit;
+			int currentId = tileentity.getBlockType().id;
+			if (currentId == furnaceIronIdle.id || currentId == furnaceGoldIdle.id || currentId == furnaceDiamondIdle.id || currentId == furnaceSteelIdle.id) {
+				alreadyLit = 0;
 			} else {
-				world.setBlockWithNotify(x, y, z, tileentity.getBlockType().id-1);
+				alreadyLit = 1;
+			}
+			if (lit) {
+				world.setBlockWithNotify(x, y, z, currentId+1-alreadyLit);
+			} else {
+				world.setBlockWithNotify(x, y, z, currentId-alreadyLit);
 			}
 
 			keepFurnaceInventory = false;
