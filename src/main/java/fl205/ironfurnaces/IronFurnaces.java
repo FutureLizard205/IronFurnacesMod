@@ -4,13 +4,13 @@ import fl205.ironfurnaces.blocks.DiamondFurnace;
 import fl205.ironfurnaces.blocks.GoldFurnace;
 import fl205.ironfurnaces.blocks.IronFurnace;
 import fl205.ironfurnaces.blocks.SteelFurnace;
-// import fl205.ironfurnaces.modded.BTWaila.IronFurnacesTooltips;
+import fl205.ironfurnaces.modded.BTWaila.IronFurnacesTooltips;
 import fl205.ironfurnaces.tileEntities.TileEntityDiamondFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntityGoldFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntityIronFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntitySteelFurnace;
 import net.fabricmc.api.ModInitializer;
-// import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.sound.block.BlockSounds;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
@@ -193,12 +193,13 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 				});
 			}
 		}
-		*/
-		/* BTWaila Integration (awating for BTWaila to update)
+		 */
+
+		// BTWaila Integration
 		if (FabricLoader.getInstance().isModLoaded("btwaila")) {
 			IronFurnacesTooltips ironFurnacesTooltips = new IronFurnacesTooltips();
 			ironFurnacesTooltips.addTooltip();
-		}*/
+		}
 
 		LOGGER.info("IronFurnaces mod initialized.");
 	}
