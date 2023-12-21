@@ -13,20 +13,16 @@ import net.minecraft.client.sound.block.BlockSounds;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
-// import net.minecraft.core.item.Item;
-import net.minecraft.core.data.DataLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
-// import turniplabs.halplibe.helper.RecipeHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
-import turniplabs.halplibe.util.RecipeEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
 
 
-public class IronFurnaces implements ModInitializer, GameStartEntrypoint, RecipeEntrypoint {
+public class IronFurnaces implements ModInitializer, GameStartEntrypoint {
     public static final String MOD_ID = "ironfurnaces";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -36,12 +32,6 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 	static {
 		// Config
 		Toml toml = new Toml("Iron Furnaces Mod Config\nMore info at https://github.com/FutureLizard205/bta-IronFurnacesMod");
-
-		toml.addCategory("recipeEnabled")
-			.addEntry("ironFurnace", true)
-			.addEntry("goldFurnace", true)
-			.addEntry("diamondFurnace", true)
-			.addEntry("steelFurnace", true);
 
 		toml.addCategory("ids")
 			.addEntry("ironFurnaceIdleID", 664)
@@ -176,27 +166,8 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 		EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
 		EntityHelper.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
 
-		/*Recipes
-		String[] names = {"iron", "gold", "diamond", "steel"};
-		Block[] furnaces = {furnaceIronIdle, furnaceGoldIdle, furnaceDiamondIdle, furnaceSteelIdle};
-		Item[] recipeMaterials = {Item.ingotIron, Item.ingotGold, Item.diamond, Item.ingotSteel};
-		Block[] recipeFurnaces = {Block.furnaceStoneIdle, furnaceIronIdle, furnaceGoldIdle, furnaceGoldIdle};
-		for (int i = 0; i < furnaces.length; i++) {
-			if (config.getBoolean("recipeEnabled." + names[i] + "Furnace")) {
-				RecipeHelper.Crafting.createRecipe(furnaces[i], 1, new Object[]{
-					"AAA",
-					"ABA",
-					"AAA",
-					'A', recipeMaterials[i],
-					'B', recipeFurnaces[i]
-				});
-			}
-		}
-		 */
-
 		LOGGER.info("IronFurnaces mod initialized.");
 	}
-
 
 	@Override
 	public void beforeGameStart() {
@@ -206,10 +177,5 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 	@Override
 	public void afterGameStart() {
 
-	}
-
-	@Override
-	public void onRecipesReady() {
-		//DataLoader.loadRecipes("/assets/ironfurnaces/recipes.json");
 	}
 }
