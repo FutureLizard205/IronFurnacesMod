@@ -27,10 +27,6 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 		this.activeId = activeID;
 		this.idleID = idleID;
 	}
-	public void onBlockAdded(World world, int i, int j, int k) {
-		super.onBlockAdded(world, i, j, k);
-		this.setDefaultDirection(world, i, j, k);
-	}
 
 	public ItemStack[] getBreakResult(World world, EnumDropCause dropCause, int x, int y, int z, int meta, TileEntity tileEntity) {
 		switch (dropCause) {
