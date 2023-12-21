@@ -33,19 +33,19 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint {
 		// Config
 		Toml toml = new Toml("Iron Furnaces Mod Config\nMore info at https://github.com/FutureLizard205/bta-IronFurnacesMod");
 
-		toml.addCategory("ids")
+		toml.addCategory("IDs")
 			.addEntry("ironFurnaceIdleID", 664)
 			.addEntry("goldFurnaceIdleID", 666)
 			.addEntry("diamondFurnaceIdleID", 668)
 			.addEntry("steelFurnaceIdleID", 674);
 
-		toml.addCategory( "speed")
+		toml.addCategory( "Speed")
 			.addEntry("ironFurnace", 125)
 			.addEntry("goldFurnace", 160)
 			.addEntry("diamondFurnace", 200)
 			.addEntry("steelFurnace", 100);
 
-		toml.addCategory("fuelYield")
+		toml.addCategory("Fuel Yield")
 			.addEntry("ironFurnace", 125)
 			.addEntry("goldFurnace", 80)
 			.addEntry("diamondFurnace", 150)
@@ -67,7 +67,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint {
 		.setTopTexture("ironfurnacetop.png")
 		.setImmovable()
 		.setTags(BlockTags.MINEABLE_BY_PICKAXE)
-		.build(new IronFurnace("furnace.iron.idle", config.getInt("ids.ironFurnaceIdleID"), Material.metal, false));
+		.build(new IronFurnace("furnace.iron.idle", config.getInt("IDs.ironFurnaceIdleID"), Material.metal, false));
 
 	public static final Block furnaceIronActive = new BlockBuilder(MOD_ID)
 		.setBlockSound(BlockSounds.METAL)
@@ -92,7 +92,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint {
 		.setTopTexture("goldfurnacetop.png")
 		.setImmovable()
 		.setTags(BlockTags.MINEABLE_BY_PICKAXE)
-		.build(new GoldFurnace("furnace.gold.idle", config.getInt("ids.goldFurnaceIdleID"), Material.metal, false));
+		.build(new GoldFurnace("furnace.gold.idle", config.getInt("IDs.goldFurnaceIdleID"), Material.metal, false));
 
 	public static final Block furnaceGoldActive = new BlockBuilder(MOD_ID)
 		.setBlockSound(BlockSounds.METAL)
@@ -117,7 +117,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint {
 		.setTopTexture("diamondfurnacetop.png")
 		.setImmovable()
 		.setTags(BlockTags.MINEABLE_BY_PICKAXE)
-		.build(new DiamondFurnace("furnace.diamond.idle", config.getInt("ids.diamondFurnaceIdleID"), Material.metal, false));
+		.build(new DiamondFurnace("furnace.diamond.idle", config.getInt("IDs.diamondFurnaceIdleID"), Material.metal, false));
 
 	public static final Block furnaceDiamondActive = new BlockBuilder(MOD_ID)
 		.setBlockSound(BlockSounds.METAL)
@@ -142,7 +142,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint {
 		.setTopTexture("steelfurnacetop.png")
 		.setImmovable()
 		.setTags(BlockTags.MINEABLE_BY_PICKAXE)
-		.build(new SteelFurnace("furnace.steel.idle", config.getInt("ids.steelFurnaceIdleID"), Material.metal, false));
+		.build(new SteelFurnace("furnace.steel.idle", config.getInt("IDs.steelFurnaceIdleID"), Material.metal, false));
 
 	public static final Block furnaceSteelActive = new BlockBuilder(MOD_ID)
 		.setBlockSound(BlockSounds.METAL)

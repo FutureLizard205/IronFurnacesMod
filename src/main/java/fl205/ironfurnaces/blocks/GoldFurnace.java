@@ -7,7 +7,7 @@ import net.minecraft.core.block.material.Material;
 import static fl205.ironfurnaces.IronFurnaces.config;
 public class GoldFurnace extends CustomFurnace {
 	public GoldFurnace(String key, int id, Material material, boolean flag) {
-		super(key, id, material, flag, config.getInt("ids.goldFurnaceIdleID") + 1, config.getInt("ids.goldFurnaceIdleID"));
+		super(key, id, material, flag, config.getInt("IDs.goldFurnaceIdleID") + 1, config.getInt("IDs.goldFurnaceIdleID"));
 	}
 	@Override
 	protected TileEntity getNewBlockEntity() {

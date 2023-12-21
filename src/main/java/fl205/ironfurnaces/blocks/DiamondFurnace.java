@@ -9,7 +9,7 @@ import static fl205.ironfurnaces.IronFurnaces.config;
 public class DiamondFurnace extends CustomFurnace {
 
 	public DiamondFurnace(String key, int id, Material material, boolean flag) {
-		super(key, id, material, flag, config.getInt("ids.diamondFurnaceIdleID") + 1, config.getInt("ids.diamondFurnaceIdleID"));
+		super(key, id, material, flag, config.getInt("IDs.diamondFurnaceIdleID") + 1, config.getInt("IDs.diamondFurnaceIdleID"));
 	}
 	protected TileEntity getNewBlockEntity() {
 		return new TileEntityDiamondFurnace();
