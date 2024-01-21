@@ -161,10 +161,10 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint {
 	@Override
     public void onInitialize() {
 		// Tile Entities
-		EntityHelper.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
-		EntityHelper.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
-		EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
-		EntityHelper.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
+		EntityHelper.Core.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
+		EntityHelper.Core.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
+		EntityHelper.Core.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
+		EntityHelper.Core.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
 
 		LOGGER.info("IronFurnaces mod initialized.");
 	}
