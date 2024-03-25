@@ -20,23 +20,27 @@
     "main": [
       "fl205.ironfurnaces.IronFurnaces"
     ],
+		"beforeGameStart": [
+			"fl205.ironfurnaces.IronFurnaces"
+		],
+		"afterGameStart": [
+			"fl205.ironfurnaces.IronFurnaces"
+		],
 		"recipesReady": [
-			"fl205.ironfurnaces.IronFurnacesRecipes"
+			"fl205.ironfurnaces.IronFurnaces"
 		],
 		"btwaila": [
 			"fl205.ironfurnaces.modded.BTWaila.WailaPlugin"
 		]
   },
-  "mixins": [
-		"ironfurnaces.mixins.json"
-  ],
 
   "depends": {
-    "fabricloader": ">=0.13.3",
-		"halplibe": ">=2.1.7"
+		"minecraft": "~7.1-beta.2",
+    "fabricloader": ">=0.15.5",
+		"halplibe": ">=3.4.16"
   },
   "suggests": {
-		"btwaila": ">=0.2.0"
+		"btwaila": ">=1.0.9-7.1"
   },
   "icon": "icon.png"
 }

@@ -9,7 +9,8 @@ import fl205.ironfurnaces.tileEntities.TileEntityGoldFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntityIronFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntitySteelFurnace;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.client.sound.block.BlockSounds;
+import net.minecraft.core.item.Item;
+import net.minecraft.core.sound.BlockSounds;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
@@ -17,12 +18,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
+import turniplabs.halplibe.helper.RecipeBuilder;
 import turniplabs.halplibe.util.GameStartEntrypoint;
+import turniplabs.halplibe.util.RecipeEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
 
 
-public class IronFurnaces implements ModInitializer, GameStartEntrypoint {
+public class IronFurnaces implements ModInitializer, GameStartEntrypoint, RecipeEntrypoint {
     public static final String MOD_ID = "ironfurnaces";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -160,22 +163,50 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint {
 
 	@Override
     public void onInitialize() {
-		// Tile Entities
-		EntityHelper.Core.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
-		EntityHelper.Core.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
-		EntityHelper.Core.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
-		EntityHelper.Core.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
-
 		LOGGER.info("IronFurnaces mod initialized.");
 	}
 
 	@Override
 	public void beforeGameStart() {
-
+		// Tile Entities
+		EntityHelper.Core.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
+		EntityHelper.Core.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
+		EntityHelper.Core.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
+		EntityHelper.Core.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
 	}
 
 	@Override
 	public void afterGameStart() {
 
+	}
+	@Override
+	public void onRecipesReady() {
+		// Iron Furnace
+		RecipeBuilder.Shaped(MOD_ID)
+			.setShape("AAA", "AFA", "AAA")
+			.addInput('A', Item.ingotIron)
+			.addInput('F', Block.furnaceStoneIdle)
+			.create("furnace_iron", furnaceIronIdle.getDefaultStack());
+
+		// Gold Furnace
+		RecipeBuilder.Shaped(MOD_ID)
+			.setShape("AAA", "AFA", "AAA")
+			.addInput('A', Item.ingotGold)
+			.addInput('F', furnaceIronIdle)
+			.create("furnace_gold", furnaceGoldIdle.getDefaultStack());
+
+		// Diamond Furnace
+		RecipeBuilder.Shaped(MOD_ID)
+			.setShape("AAA", "AFA", "AAA")
+			.addInput('A', Item.diamond)
+			.addInput('F', furnaceGoldIdle)
+			.create("furnace_diamond", furnaceDiamondIdle.getDefaultStack());
+
+		// Steel Furnace
+		RecipeBuilder.Shaped(MOD_ID)
+			.setShape("AAA", "AFA", "AAA")
+			.addInput('A', Item.ingotSteel)
+			.addInput('F', furnaceGoldIdle)
+			.create("furnace_steel", furnaceSteelIdle.getDefaultStack());
 	}
 }
