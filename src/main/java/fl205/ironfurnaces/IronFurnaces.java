@@ -9,16 +9,16 @@ import fl205.ironfurnaces.tileEntities.TileEntityGoldFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntityIronFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntitySteelFurnace;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.core.item.Item;
-import net.minecraft.core.sound.BlockSounds;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
+import net.minecraft.core.item.Item;
+import net.minecraft.core.sound.BlockSounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
-import turniplabs.halplibe.helper.RecipeBuilder;
+import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderShaped;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
@@ -60,103 +60,76 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 
 	// Blocks
 
-	public static final Block furnaceIronIdle = new BlockBuilder(MOD_ID)
+	static BlockBuilder furnace = new BlockBuilder(MOD_ID)
 		.setBlockSound(BlockSounds.METAL)
 		.setHardness(5.0F)
 		.setResistance(10.0F)
+		.setImmovable()
+		.setTags(BlockTags.MINEABLE_BY_PICKAXE);
+
+	public static final Block furnaceIronIdle = furnace
 		.setSideTextures("ironfurnaceside.png")
 		.setNorthTexture("ironfurnaceidlefront.png")
 		.setBottomTexture("ironfurnacebottom.png")
 		.setTopTexture("ironfurnacetop.png")
-		.setImmovable()
-		.setTags(BlockTags.MINEABLE_BY_PICKAXE)
 		.build(new IronFurnace("furnace.iron.idle", config.getInt("IDs.ironFurnaceIdleID"), Material.metal, false));
 
-	public static final Block furnaceIronActive = new BlockBuilder(MOD_ID)
-		.setBlockSound(BlockSounds.METAL)
-		.setHardness(5.0F)
-		.setResistance(10.0F)
+	public static final Block furnaceIronActive = furnace
 		.setSideTextures("ironfurnaceside.png")
 		.setNorthTexture("ironfurnaceactivefront.png")
 		.setBottomTexture("ironfurnacebottom.png")
 		.setTopTexture("ironfurnacetop.png")
 		.setLuminance(13)
-		.setImmovable()
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
 		.build(new IronFurnace("furnace.iron.active", furnaceIronIdle.id + 1, Material.metal, true));
 
-	public static final Block furnaceGoldIdle = new BlockBuilder(MOD_ID)
-		.setBlockSound(BlockSounds.METAL)
-		.setHardness(5.0F)
-		.setResistance(10.0F)
+	public static final Block furnaceGoldIdle = furnace
 		.setSideTextures("goldfurnaceside.png")
 		.setNorthTexture("goldfurnaceidlefront.png")
 		.setBottomTexture("goldfurnacebottom.png")
 		.setTopTexture("goldfurnacetop.png")
-		.setImmovable()
-		.setTags(BlockTags.MINEABLE_BY_PICKAXE)
 		.build(new GoldFurnace("furnace.gold.idle", config.getInt("IDs.goldFurnaceIdleID"), Material.metal, false));
 
-	public static final Block furnaceGoldActive = new BlockBuilder(MOD_ID)
-		.setBlockSound(BlockSounds.METAL)
-		.setHardness(5.0F)
-		.setResistance(10.0F)
+	public static final Block furnaceGoldActive = furnace
 		.setSideTextures("goldfurnaceside.png")
 		.setNorthTexture("goldfurnaceactivefront.png")
 		.setBottomTexture("goldfurnacebottom.png")
 		.setTopTexture("goldfurnacetop.png")
 		.setLuminance(13)
-		.setImmovable()
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
 		.build(new GoldFurnace("furnace.gold.active", furnaceGoldIdle.id + 1, Material.metal, true));
 
-	public static final Block furnaceDiamondIdle = new BlockBuilder(MOD_ID)
-		.setBlockSound(BlockSounds.METAL)
-		.setHardness(5.0F)
-		.setResistance(10.0F)
+	public static final Block furnaceDiamondIdle = furnace
 		.setSideTextures("diamondfurnaceside.png")
 		.setNorthTexture("diamondfurnaceidlefront.png")
 		.setBottomTexture("diamondfurnacebottom.png")
 		.setTopTexture("diamondfurnacetop.png")
-		.setImmovable()
-		.setTags(BlockTags.MINEABLE_BY_PICKAXE)
 		.build(new DiamondFurnace("furnace.diamond.idle", config.getInt("IDs.diamondFurnaceIdleID"), Material.metal, false));
 
-	public static final Block furnaceDiamondActive = new BlockBuilder(MOD_ID)
-		.setBlockSound(BlockSounds.METAL)
-		.setHardness(5.0F)
-		.setResistance(10.0F)
+	public static final Block furnaceDiamondActive = furnace
 		.setSideTextures("diamondfurnaceside.png")
 		.setNorthTexture("diamondfurnaceactivefront.png")
 		.setBottomTexture("diamondfurnacebottom.png")
 		.setTopTexture("diamondfurnacetop.png")
 		.setLuminance(13)
-		.setImmovable()
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
 		.build(new DiamondFurnace("furnace.diamond.active", furnaceDiamondIdle.id + 1, Material.metal, true));
 
-	public static final Block furnaceSteelIdle = new BlockBuilder(MOD_ID)
-		.setBlockSound(BlockSounds.METAL)
-		.setHardness(5.0F)
+	public static final Block furnaceSteelIdle = furnace
 		.setResistance(2000.0F)
 		.setSideTextures("steelfurnaceside.png")
 		.setNorthTexture("steelfurnaceidlefront.png")
 		.setBottomTexture("steelfurnacebottom.png")
 		.setTopTexture("steelfurnacetop.png")
-		.setImmovable()
-		.setTags(BlockTags.MINEABLE_BY_PICKAXE)
 		.build(new SteelFurnace("furnace.steel.idle", config.getInt("IDs.steelFurnaceIdleID"), Material.metal, false));
 
-	public static final Block furnaceSteelActive = new BlockBuilder(MOD_ID)
-		.setBlockSound(BlockSounds.METAL)
-		.setHardness(5.0F)
+	public static final Block furnaceSteelActive = furnace
 		.setResistance(2000.0F)
 		.setSideTextures("steelfurnaceside.png")
 		.setNorthTexture("steelfurnaceactivefront.png")
 		.setBottomTexture("steelfurnacebottom.png")
 		.setTopTexture("steelfurnacetop.png")
 		.setLuminance(13)
-		.setImmovable()
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
 		.build(new SteelFurnace("furnace.steel.active", furnaceSteelIdle.id + 1, Material.metal, true));
 
@@ -166,7 +139,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 		LOGGER.info("IronFurnaces mod initialized.");
 	}
 
-	@Override
+    @Override
 	public void beforeGameStart() {
 		// Tile Entities
 		EntityHelper.Core.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
@@ -181,32 +154,16 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 	}
 	@Override
 	public void onRecipesReady() {
+		// Furnace Template
+		RecipeBuilderShaped furnace = new RecipeBuilderShaped(MOD_ID, "AAA", "AFA", "AAA");
 		// Iron Furnace
-		RecipeBuilder.Shaped(MOD_ID)
-			.setShape("AAA", "AFA", "AAA")
-			.addInput('A', Item.ingotIron)
-			.addInput('F', Block.furnaceStoneIdle)
-			.create("furnace_iron", furnaceIronIdle.getDefaultStack());
-
+		furnace.addInput('A', Item.ingotIron).addInput('F', Block.furnaceStoneIdle).create("furnace_iron", furnaceIronIdle.getDefaultStack());
 		// Gold Furnace
-		RecipeBuilder.Shaped(MOD_ID)
-			.setShape("AAA", "AFA", "AAA")
-			.addInput('A', Item.ingotGold)
-			.addInput('F', furnaceIronIdle)
-			.create("furnace_gold", furnaceGoldIdle.getDefaultStack());
-
+		furnace.addInput('A', Item.ingotGold).addInput('F', furnaceIronIdle).create("furnace_gold", furnaceGoldIdle.getDefaultStack());
 		// Diamond Furnace
-		RecipeBuilder.Shaped(MOD_ID)
-			.setShape("AAA", "AFA", "AAA")
-			.addInput('A', Item.diamond)
-			.addInput('F', furnaceGoldIdle)
-			.create("furnace_diamond", furnaceDiamondIdle.getDefaultStack());
-
+		furnace.addInput('A', Item.diamond).addInput('F', furnaceGoldIdle).create("furnace_diamond", furnaceDiamondIdle.getDefaultStack());
 		// Steel Furnace
-		RecipeBuilder.Shaped(MOD_ID)
-			.setShape("AAA", "AFA", "AAA")
-			.addInput('A', Item.ingotSteel)
-			.addInput('F', furnaceGoldIdle)
-			.create("furnace_steel", furnaceSteelIdle.getDefaultStack());
+		furnace.addInput('A', Item.ingotSteel).addInput('F', furnaceGoldIdle).create("furnace_steel", furnaceSteelIdle.getDefaultStack());
+
 	}
 }
