@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
+import turniplabs.halplibe.helper.RecipeBuilder;
 import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderShaped;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
@@ -152,6 +153,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 	public void afterGameStart() {
 
 	}
+
 	@Override
 	public void onRecipesReady() {
 		// Furnace Template
@@ -165,5 +167,11 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 		// Steel Furnace
 		furnace.addInput('A', Item.ingotSteel).addInput('F', furnaceGoldIdle).create("furnace_steel", furnaceSteelIdle.getDefaultStack());
 
+	}
+
+	@Override
+	public void initNamespaces() {
+		RecipeEntrypoint.super.initNamespaces();
+		RecipeBuilder.initNameSpace(MOD_ID);
 	}
 }
