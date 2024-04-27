@@ -1,11 +1,11 @@
 package fl205.ironfurnaces.tileEntities;
 
 import fl205.ironfurnaces.blocks.CustomFurnace;
+import java.util.List;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityFurnace;
 import net.minecraft.core.crafting.LookupFuelFurnace;
 import net.minecraft.core.data.registry.Registries;
-import net.minecraft.core.data.registry.recipe.RecipeGroup;
 import net.minecraft.core.data.registry.recipe.entry.RecipeEntryFurnace;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
@@ -85,13 +85,13 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 		if (this.furnaceItemStacks[0] == null) {
 			return false;
 		} else {
-			RecipeGroup<RecipeEntryFurnace> group = Registries.RECIPES.getGroupFromKey("minecraft:furnace");
+			List<RecipeEntryFurnace> list = Registries.RECIPES.getAllFurnaceRecipes();
 			ItemStack itemstack = null;
-            for (RecipeEntryFurnace recipeEntryBase : group) {
-                if (recipeEntryBase instanceof RecipeEntryFurnace && recipeEntryBase.matches(this.furnaceItemStacks[0])) {
-                    itemstack = recipeEntryBase.getOutput();
-                }
-            }
+			for (RecipeEntryFurnace recipeEntryBase : list) {
+				if (recipeEntryBase != null && recipeEntryBase.matches(this.furnaceItemStacks[0])) {
+					itemstack = recipeEntryBase.getOutput();
+				}
+			}
 
 			if (itemstack == null) {
 				return false;
