@@ -171,7 +171,6 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 
 	@Override
 	public void initNamespaces() {
-		RecipeEntrypoint.super.initNamespaces();
 		RecipeBuilder.initNameSpace(MOD_ID);
 	}
 }
