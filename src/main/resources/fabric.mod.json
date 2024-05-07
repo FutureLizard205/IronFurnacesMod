@@ -9,8 +9,9 @@
     "FutureLizard205"
   ],
   "contact": {
-    "homepage": "",
-    "sources": ""
+    "homepage": "https://github.com/FutureLizard205/",
+    "sources": "https://github.com/FutureLizard205/bta-IronFurnacesMod",
+		"issues": "https://github.com/FutureLizard205/bta-IronFurnacesMod/issues"
   },
 
   "license": "CC0-1.0",
@@ -28,19 +29,13 @@
 		],
 		"recipesReady": [
 			"fl205.ironfurnaces.IronFurnaces"
-		],
-		"btwaila": [
-			"fl205.ironfurnaces.modded.BTWaila.WailaPlugin"
 		]
   },
 
   "depends": {
-		"minecraft": "~7.1",
-    "fabricloader": ">=0.15.5",
-		"halplibe": ">=3.5.3"
-  },
-  "suggests": {
-		"btwaila": ">=1.0.9-7.1"
+		"minecraft": "^7.2-beta",
+    "fabricloader": ">0.15.5",
+		"halplibe": ">=4.0.3"
   },
   "icon": "icon.png"
 }

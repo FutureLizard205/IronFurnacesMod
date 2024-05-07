@@ -9,6 +9,7 @@ import fl205.ironfurnaces.tileEntities.TileEntityGoldFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntityIronFurnace;
 import fl205.ironfurnaces.tileEntities.TileEntitySteelFurnace;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.client.render.block.model.BlockModelHorizontalRotation;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
@@ -69,69 +70,102 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 		.setTags(BlockTags.MINEABLE_BY_PICKAXE);
 
 	public static final Block furnaceIronIdle = furnace
-		.setSideTextures("ironfurnaceside.png")
-		.setNorthTexture("ironfurnaceidlefront.png")
-		.setBottomTexture("ironfurnacebottom.png")
-		.setTopTexture("ironfurnacetop.png")
+		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+			.withTextures(
+				"ironfurnaces:block/ironfurnacetop",
+				"ironfurnaces:block/ironfurnacebottom",
+				"ironfurnaces:block/ironfurnaceidlefront",
+				"ironfurnaces:block/ironfurnaceside",
+				"ironfurnaces:block/ironfurnaceside",
+				"ironfurnaces:block/ironfurnaceside"))
 		.build(new IronFurnace("furnace.iron.idle", config.getInt("IDs.ironFurnaceIdleID"), Material.metal, false));
 
 	public static final Block furnaceIronActive = furnace
-		.setSideTextures("ironfurnaceside.png")
-		.setNorthTexture("ironfurnaceactivefront.png")
-		.setBottomTexture("ironfurnacebottom.png")
-		.setTopTexture("ironfurnacetop.png")
 		.setLuminance(13)
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
+		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+			.withTextures(
+				"ironfurnaces:block/ironfurnacetop",
+				"ironfurnaces:block/ironfurnacebottom",
+				"ironfurnaces:block/ironfurnaceactivefront",
+				"ironfurnaces:block/ironfurnaceside",
+				"ironfurnaces:block/ironfurnaceside",
+				"ironfurnaces:block/ironfurnaceside"))
 		.build(new IronFurnace("furnace.iron.active", furnaceIronIdle.id + 1, Material.metal, true));
 
+
 	public static final Block furnaceGoldIdle = furnace
-		.setSideTextures("goldfurnaceside.png")
-		.setNorthTexture("goldfurnaceidlefront.png")
-		.setBottomTexture("goldfurnacebottom.png")
-		.setTopTexture("goldfurnacetop.png")
+		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+			.withTextures(
+				"ironfurnaces:block/goldfurnacetop",
+				"ironfurnaces:block/goldfurnacebottom",
+				"ironfurnaces:block/goldfurnaceidlefront",
+				"ironfurnaces:block/goldfurnaceside",
+				"ironfurnaces:block/goldfurnaceside",
+				"ironfurnaces:block/goldfurnaceside"))
 		.build(new GoldFurnace("furnace.gold.idle", config.getInt("IDs.goldFurnaceIdleID"), Material.metal, false));
 
 	public static final Block furnaceGoldActive = furnace
-		.setSideTextures("goldfurnaceside.png")
-		.setNorthTexture("goldfurnaceactivefront.png")
-		.setBottomTexture("goldfurnacebottom.png")
-		.setTopTexture("goldfurnacetop.png")
 		.setLuminance(13)
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
+		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+			.withTextures(
+				"ironfurnaces:block/goldfurnacetop",
+				"ironfurnaces:block/goldfurnacebottom",
+				"ironfurnaces:block/goldfurnaceactivefront",
+				"ironfurnaces:block/goldfurnaceside",
+				"ironfurnaces:block/goldfurnaceside",
+				"ironfurnaces:block/goldfurnaceside"))
 		.build(new GoldFurnace("furnace.gold.active", furnaceGoldIdle.id + 1, Material.metal, true));
 
 	public static final Block furnaceDiamondIdle = furnace
-		.setSideTextures("diamondfurnaceside.png")
-		.setNorthTexture("diamondfurnaceidlefront.png")
-		.setBottomTexture("diamondfurnacebottom.png")
-		.setTopTexture("diamondfurnacetop.png")
+		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+			.withTextures(
+				"ironfurnaces:block/diamondfurnacetop",
+				"ironfurnaces:block/diamondfurnacebottom",
+				"ironfurnaces:block/diamondfurnaceidlefront",
+				"ironfurnaces:block/diamondfurnaceside",
+				"ironfurnaces:block/diamondfurnaceside",
+				"ironfurnaces:block/diamondfurnaceside"))
 		.build(new DiamondFurnace("furnace.diamond.idle", config.getInt("IDs.diamondFurnaceIdleID"), Material.metal, false));
 
 	public static final Block furnaceDiamondActive = furnace
-		.setSideTextures("diamondfurnaceside.png")
-		.setNorthTexture("diamondfurnaceactivefront.png")
-		.setBottomTexture("diamondfurnacebottom.png")
-		.setTopTexture("diamondfurnacetop.png")
 		.setLuminance(13)
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
+		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+			.withTextures(
+				"ironfurnaces:block/diamondfurnacetop",
+				"ironfurnaces:block/diamondfurnacebottom",
+				"ironfurnaces:block/diamondfurnaceactivefront",
+				"ironfurnaces:block/diamondfurnaceside",
+				"ironfurnaces:block/diamondfurnaceside",
+				"ironfurnaces:block/diamondfurnaceside"))
 		.build(new DiamondFurnace("furnace.diamond.active", furnaceDiamondIdle.id + 1, Material.metal, true));
 
 	public static final Block furnaceSteelIdle = furnace
 		.setResistance(2000.0F)
-		.setSideTextures("steelfurnaceside.png")
-		.setNorthTexture("steelfurnaceidlefront.png")
-		.setBottomTexture("steelfurnacebottom.png")
-		.setTopTexture("steelfurnacetop.png")
+		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+			.withTextures(
+				"ironfurnaces:block/steelfurnacetop",
+				"ironfurnaces:block/steelfurnacebottom",
+				"ironfurnaces:block/steelfurnaceidlefront",
+				"ironfurnaces:block/steelfurnaceside",
+				"ironfurnaces:block/steelfurnaceside",
+				"ironfurnaces:block/steelfurnaceside"))
 		.build(new SteelFurnace("furnace.steel.idle", config.getInt("IDs.steelFurnaceIdleID"), Material.metal, false));
 
 	public static final Block furnaceSteelActive = furnace
 		.setResistance(2000.0F)
-		.setSideTextures("steelfurnaceside.png")
-		.setNorthTexture("steelfurnaceactivefront.png")
-		.setBottomTexture("steelfurnacebottom.png")
-		.setTopTexture("steelfurnacetop.png")
 		.setLuminance(13)
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
+		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+			.withTextures(
+				"ironfurnaces:block/steelfurnacetop",
+				"ironfurnaces:block/steelfurnacebottom",
+				"ironfurnaces:block/steelfurnaceactivefront",
+				"ironfurnaces:block/steelfurnaceside",
+				"ironfurnaces:block/steelfurnaceside",
+				"ironfurnaces:block/steelfurnaceside"))
 		.build(new SteelFurnace("furnace.steel.active", furnaceSteelIdle.id + 1, Material.metal, true));
 
 
@@ -143,10 +177,10 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
     @Override
 	public void beforeGameStart() {
 		// Tile Entities
-		EntityHelper.Core.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
-		EntityHelper.Core.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
-		EntityHelper.Core.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
-		EntityHelper.Core.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
+		EntityHelper.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
+		EntityHelper.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
+		EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
+		EntityHelper.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
 	}
 
 	@Override

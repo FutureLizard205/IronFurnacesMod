@@ -1,6 +1,7 @@
 package fl205.ironfurnaces.blocks;
 
 import fl205.ironfurnaces.tileEntities.TileEntityCustomFurnace;
+import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockTileEntityRotatable;
 import net.minecraft.core.block.entity.TileEntity;
@@ -31,6 +32,7 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 	public ItemStack[] getBreakResult(World world, EnumDropCause dropCause, int x, int y, int z, int meta, TileEntity tileEntity) {
 		switch (dropCause) {
 			case PICK_BLOCK:
+			case EXPLOSION:
 			case PROPER_TOOL:
 			case SILK_TOUCH:
 				return new ItemStack[]{new ItemStack(Block.blocksList[idleID])};
@@ -42,23 +44,23 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		if (this.isActive) {
 			int l = world.getBlockMetadata(x, y, z);
-			float f = (float)x + 0.5F;
-			float f1 = (float)y + 0.0F + rand.nextFloat() * 6.0F / 16.0F;
-			float f2 = (float)z + 0.5F;
-			float f3 = 0.52F;
-			float f4 = rand.nextFloat() * 0.6F - 0.3F;
+			double poxX = (double)x + 0.5;
+			double posY = (double)y + 0.0 + (double)(rand.nextFloat() * 6.0F / 16.0F);
+			double posZ = (double)z + 0.5;
+			double f3 = 0.5199999809265137;
+			double f4 = (rand.nextFloat() * 0.6F - 0.3F);
 			if (l == 4) {
-				world.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0, 0.0, 0.0);
-				world.spawnParticle("flame", f - f3, f1, f2 + f4, 0.0, 0.0, 0.0);
+				world.spawnParticle("smoke", poxX - f3, posY, posZ + f4, 0.0, 0.0, 0.0, 0);
+				world.spawnParticle("flame", poxX - f3, posY, posZ + f4, 0.0, 0.0, 0.0, 0);
 			} else if (l == 5) {
-				world.spawnParticle("smoke", f + f3, f1, f2 + f4, 0.0, 0.0, 0.0);
-				world.spawnParticle("flame", f + f3, f1, f2 + f4, 0.0, 0.0, 0.0);
+				world.spawnParticle("smoke", poxX + f3, posY, posZ + f4, 0.0, 0.0, 0.0, 0);
+				world.spawnParticle("flame", poxX + f3, posY, posZ + f4, 0.0, 0.0, 0.0, 0);
 			} else if (l == 2) {
-				world.spawnParticle("smoke", f + f4, f1, f2 - f3, 0.0, 0.0, 0.0);
-				world.spawnParticle("flame", f + f4, f1, f2 - f3, 0.0, 0.0, 0.0);
+				world.spawnParticle("smoke", poxX + f4, posY, posZ - f3, 0.0, 0.0, 0.0, 0);
+				world.spawnParticle("flame", poxX + f4, posY, posZ - f3, 0.0, 0.0, 0.0, 0);
 			} else if (l == 3) {
-				world.spawnParticle("smoke", f + f4, f1, f2 + f3, 0.0, 0.0, 0.0);
-				world.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0, 0.0, 0.0);
+				world.spawnParticle("smoke", poxX + f4, posY, posZ + f3, 0.0, 0.0, 0.0, 0);
+				world.spawnParticle("flame", poxX + f4, posY, posZ + f3, 0.0, 0.0, 0.0, 0);
 			}
 
 		}
@@ -77,8 +79,12 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 		TileEntity tileentity = world.getBlockTileEntity(x, y, z);
 		if (tileentity == null) {
 			String msg = "CustomFurnace is missing Tile Entity at x: " + x + " y: " + y + " z: " + z + ", block will be removed!";
-			world.setBlockWithNotify(x, y, z, 0);
-			System.out.println(msg);
+			if (Global.BUILD_CHANNEL.isUnstableBuild()) {
+				throw new RuntimeException(msg);
+			} else {
+				world.setBlockWithNotify(x, y, z, 0);
+				System.out.println(msg);
+			}
 		} else {
 			keepFurnaceInventory = true;
 			int alreadyLit;
