@@ -40,5 +40,8 @@
     "fabricloader": ">0.15.5",
 		"halplibe": ">=4.0.3"
   },
+	"suggests": {
+		"btwaila": ">=1.1.0-7.2-pre1"
+	},
   "icon": "icon.png"
 }
