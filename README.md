@@ -2,7 +2,7 @@
 
 A simple mod that adds higher tiered furnaces to [Minecraft Better Than Adventure!](https://www.betterthanadventure.net/).
 
-Also has [BTWaila](https://github.com/ToufouMaster/BTWaila) support for versions that support it (not 7.2-pre1 yet).
+Also has [BTWaila](https://github.com/ToufouMaster/BTWaila) support.
 
 Details: 
 
