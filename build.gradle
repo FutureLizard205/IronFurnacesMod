@@ -72,6 +72,14 @@ repositories {
 		}
 		metadataSources { artifact() }
 	}
+	ivy {
+		url = "https://github.com/ToufouMaster"
+		patternLayout {
+			artifact "[organisation]/releases/download/[revision]/[module]-[revision].jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
 }
 
 dependencies {
@@ -83,6 +91,9 @@ dependencies {
 
 	// Helper library
 	modImplementation "com.github.Turnip-Labs:bta-halplibe:${project.halplibe_version}"
+
+	// BTWaila
+	modImplementation "BTWaila:btwaila:${project.btwaila_version}"
 
 	modImplementation "ModMenu:ModMenu:${project.mod_menu_version}"
 

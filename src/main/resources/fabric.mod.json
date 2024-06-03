@@ -29,6 +29,9 @@
 		],
 		"recipesReady": [
 			"fl205.ironfurnaces.IronFurnaces"
+		],
+		"btwaila": [
+			"fl205.ironfurnaces.modded.BTWaila.WailaPlugin"
 		]
   },
 
