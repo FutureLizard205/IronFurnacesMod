@@ -28,7 +28,7 @@ The ID for the furnace's active block is always 1 + the respective idle block's 
 - None :)
 
 ## Dependencies for latest version:
-- [HalpLibe](https://github.com/Turnip-Labs/bta-halplibe) >= 4.0.3
+- [HalpLibe](https://github.com/Turnip-Labs/bta-halplibe) >= 4.1.3
 
 ## Recommended:
-- [BTWaila](https://github.com/ToufouMaster/BTWaila) >= 1.1.0-7.2-pre1
+- [BTWaila](https://github.com/ToufouMaster/BTWaila) >= 1.1.2-7.2-pre2
