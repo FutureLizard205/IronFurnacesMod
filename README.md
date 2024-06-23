@@ -2,7 +2,7 @@
 
 A simple mod that adds higher tiered furnaces to [Minecraft Better Than Adventure!](https://www.betterthanadventure.net/).
 
-Also has [BTWaila](https://github.com/ToufouMaster/BTWaila) support for versions that support it (not 7.2-pre1 yet).
+Also has [BTWaila](https://github.com/ToufouMaster/BTWaila) support.
 
 Details: 
 
@@ -29,3 +29,6 @@ The ID for the furnace's active block is always 1 + the respective idle block's 
 
 ## Dependencies for latest version:
 - [HalpLibe](https://github.com/Turnip-Labs/bta-halplibe) >= 4.0.3
+
+## Recommended:
+- [BTWaila](https://github.com/ToufouMaster/BTWaila) >= 1.1.0-7.2-pre1
