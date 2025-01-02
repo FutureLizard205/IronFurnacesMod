@@ -90,7 +90,7 @@ dependencies {
 	modImplementation "fabric-loader:fabric-loader:${project.loader_version}"
 
 	// Helper library
-	modImplementation "com.github.Turnip-Labs:bta-halplibe:${project.halplibe_version}"
+	modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"
 
 	// BTWaila
 	modImplementation "BTWaila:btwaila:${project.btwaila_version}"
