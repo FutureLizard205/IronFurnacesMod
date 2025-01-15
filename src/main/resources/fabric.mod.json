@@ -36,9 +36,8 @@
   },
 
   "depends": {
-		"minecraft": "^7.2-beta",
     "fabricloader": ">0.15.5",
-		"halplibe": ">=4.1.3"
+		"halplibe": ">=5.0.0"
   },
 	"suggests": {
 		"btwaila": ">=1.1.2-7.2-pre2"
