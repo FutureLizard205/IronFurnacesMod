@@ -1,30 +1,25 @@
 package fl205.ironfurnaces;
 
-import fl205.ironfurnaces.blocks.DiamondFurnace;
-import fl205.ironfurnaces.blocks.GoldFurnace;
-import fl205.ironfurnaces.blocks.IronFurnace;
-import fl205.ironfurnaces.blocks.SteelFurnace;
-import fl205.ironfurnaces.tileEntities.TileEntityDiamondFurnace;
-import fl205.ironfurnaces.tileEntities.TileEntityGoldFurnace;
-import fl205.ironfurnaces.tileEntities.TileEntityIronFurnace;
-import fl205.ironfurnaces.tileEntities.TileEntitySteelFurnace;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.render.block.model.BlockModelHorizontalRotation;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.block.material.Material;
+import net.minecraft.core.block.BlockLogic;
+import net.minecraft.core.block.BlockLogicSupplier;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.tag.BlockTags;
-import net.minecraft.core.item.Item;
+import net.minecraft.core.item.Items;
 import net.minecraft.core.sound.BlockSounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
-import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.helper.RecipeBuilder;
 import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderShaped;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
+
+import fl205.ironfurnaces.blocks.BlockLogicIronFurnace;
 
 
 public class IronFurnaces implements ModInitializer, GameStartEntrypoint, RecipeEntrypoint {
@@ -56,7 +51,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 			.addEntry("diamondFurnace", 150)
 			.addEntry("steelFurnace", 250);
 
-		config = new TomlConfigHandler(null, MOD_ID, toml);
+		config = new TomlConfigHandler(MOD_ID, toml);
 	}
 
 
@@ -78,96 +73,95 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 				"ironfurnaces:block/ironfurnaceside",
 				"ironfurnaces:block/ironfurnaceside",
 				"ironfurnaces:block/ironfurnaceside"))
-		.build(new IronFurnace("furnace.iron.idle", config.getInt("IDs.ironFurnaceIdleID"), Material.metal, false));
+		.build("furnace.iron.idle", MOD_ID+"furnace_iron_idle", config.getInt("IDs.ironFurnaceIdleID"), BlockLogicIronFurnace::new);
 
-	public static final Block furnaceIronActive = furnace
-		.setLuminance(13)
-		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
-		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
-			.withTextures(
-				"ironfurnaces:block/ironfurnacetop",
-				"ironfurnaces:block/ironfurnacebottom",
-				"ironfurnaces:block/ironfurnaceactivefront",
-				"ironfurnaces:block/ironfurnaceside",
-				"ironfurnaces:block/ironfurnaceside",
-				"ironfurnaces:block/ironfurnaceside"))
-		.build(new IronFurnace("furnace.iron.active", furnaceIronIdle.id + 1, Material.metal, true));
+		public static final Block furnaceIronActive = furnace
+			.setLuminance(13)
+			.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
+			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+				.withTextures(
+					"ironfurnaces:block/ironfurnacetop",
+					"ironfurnaces:block/ironfurnacebottom",
+					"ironfurnaces:block/ironfurnaceactivefront",
+					"ironfurnaces:block/ironfurnaceside",
+					"ironfurnaces:block/ironfurnaceside",
+					"ironfurnaces:block/ironfurnaceside"))
+			.build(new BlockLogicIronFurnace("furnace.iron.active", furnaceIronIdle.id + 1, Material.metal, true));
 
 
-	public static final Block furnaceGoldIdle = furnace
-		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
-			.withTextures(
-				"ironfurnaces:block/goldfurnacetop",
-				"ironfurnaces:block/goldfurnacebottom",
-				"ironfurnaces:block/goldfurnaceidlefront",
-				"ironfurnaces:block/goldfurnaceside",
-				"ironfurnaces:block/goldfurnaceside",
-				"ironfurnaces:block/goldfurnaceside"))
-		.build(new GoldFurnace("furnace.gold.idle", config.getInt("IDs.goldFurnaceIdleID"), Material.metal, false));
+		public static final Block furnaceGoldIdle = furnace
+			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+				.withTextures(
+					"ironfurnaces:block/goldfurnacetop",
+					"ironfurnaces:block/goldfurnacebottom",
+					"ironfurnaces:block/goldfurnaceidlefront",
+					"ironfurnaces:block/goldfurnaceside",
+					"ironfurnaces:block/goldfurnaceside",
+					"ironfurnaces:block/goldfurnaceside"))
+			.build(new BlockLogicGoldFurnace("furnace.gold.idle", config.getInt("IDs.goldFurnaceIdleID"), Material.metal, false));
 
-	public static final Block furnaceGoldActive = furnace
-		.setLuminance(13)
-		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
-		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
-			.withTextures(
-				"ironfurnaces:block/goldfurnacetop",
-				"ironfurnaces:block/goldfurnacebottom",
-				"ironfurnaces:block/goldfurnaceactivefront",
-				"ironfurnaces:block/goldfurnaceside",
-				"ironfurnaces:block/goldfurnaceside",
-				"ironfurnaces:block/goldfurnaceside"))
-		.build(new GoldFurnace("furnace.gold.active", furnaceGoldIdle.id + 1, Material.metal, true));
+		public static final Block furnaceGoldActive = furnace
+			.setLuminance(13)
+			.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
+			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+				.withTextures(
+					"ironfurnaces:block/goldfurnacetop",
+					"ironfurnaces:block/goldfurnacebottom",
+					"ironfurnaces:block/goldfurnaceactivefront",
+					"ironfurnaces:block/goldfurnaceside",
+					"ironfurnaces:block/goldfurnaceside",
+					"ironfurnaces:block/goldfurnaceside"))
+			.build(new BlockLogicGoldFurnace("furnace.gold.active", furnaceGoldIdle.id + 1, Material.metal, true));
 
-	public static final Block furnaceDiamondIdle = furnace
-		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
-			.withTextures(
-				"ironfurnaces:block/diamondfurnacetop",
-				"ironfurnaces:block/diamondfurnacebottom",
-				"ironfurnaces:block/diamondfurnaceidlefront",
-				"ironfurnaces:block/diamondfurnaceside",
-				"ironfurnaces:block/diamondfurnaceside",
-				"ironfurnaces:block/diamondfurnaceside"))
-		.build(new DiamondFurnace("furnace.diamond.idle", config.getInt("IDs.diamondFurnaceIdleID"), Material.metal, false));
+		public static final Block furnaceDiamondIdle = furnace
+			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+				.withTextures(
+					"ironfurnaces:block/diamondfurnacetop",
+					"ironfurnaces:block/diamondfurnacebottom",
+					"ironfurnaces:block/diamondfurnaceidlefront",
+					"ironfurnaces:block/diamondfurnaceside",
+					"ironfurnaces:block/diamondfurnaceside",
+					"ironfurnaces:block/diamondfurnaceside"))
+			.build(new BlockLogicDiamondFurnace("furnace.diamond.idle", config.getInt("IDs.diamondFurnaceIdleID"), Material.metal, false));
 
-	public static final Block furnaceDiamondActive = furnace
-		.setLuminance(13)
-		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
-		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
-			.withTextures(
-				"ironfurnaces:block/diamondfurnacetop",
-				"ironfurnaces:block/diamondfurnacebottom",
-				"ironfurnaces:block/diamondfurnaceactivefront",
-				"ironfurnaces:block/diamondfurnaceside",
-				"ironfurnaces:block/diamondfurnaceside",
-				"ironfurnaces:block/diamondfurnaceside"))
-		.build(new DiamondFurnace("furnace.diamond.active", furnaceDiamondIdle.id + 1, Material.metal, true));
+		public static final Block furnaceDiamondActive = furnace
+			.setLuminance(13)
+			.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
+			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+				.withTextures(
+					"ironfurnaces:block/diamondfurnacetop",
+					"ironfurnaces:block/diamondfurnacebottom",
+					"ironfurnaces:block/diamondfurnaceactivefront",
+					"ironfurnaces:block/diamondfurnaceside",
+					"ironfurnaces:block/diamondfurnaceside",
+					"ironfurnaces:block/diamondfurnaceside"))
+			.build(new BlockLogicDiamondFurnace("furnace.diamond.active", furnaceDiamondIdle.id + 1, Material.metal, true));
 
-	public static final Block furnaceSteelIdle = furnace
-		.setResistance(2000.0F)
-		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
-			.withTextures(
-				"ironfurnaces:block/steelfurnacetop",
-				"ironfurnaces:block/steelfurnacebottom",
-				"ironfurnaces:block/steelfurnaceidlefront",
-				"ironfurnaces:block/steelfurnaceside",
-				"ironfurnaces:block/steelfurnaceside",
-				"ironfurnaces:block/steelfurnaceside"))
-		.build(new SteelFurnace("furnace.steel.idle", config.getInt("IDs.steelFurnaceIdleID"), Material.metal, false));
+		public static final Block furnaceSteelIdle = furnace
+			.setResistance(2000.0F)
+			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+				.withTextures(
+					"ironfurnaces:block/steelfurnacetop",
+					"ironfurnaces:block/steelfurnacebottom",
+					"ironfurnaces:block/steelfurnaceidlefront",
+					"ironfurnaces:block/steelfurnaceside",
+					"ironfurnaces:block/steelfurnaceside",
+					"ironfurnaces:block/steelfurnaceside"))
+			.build(new BlockLogicSteelFurnace("furnace.steel.idle", Material.metal, false));
 
-	public static final Block furnaceSteelActive = furnace
-		.setResistance(2000.0F)
-		.setLuminance(13)
-		.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
-		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
-			.withTextures(
-				"ironfurnaces:block/steelfurnacetop",
-				"ironfurnaces:block/steelfurnacebottom",
-				"ironfurnaces:block/steelfurnaceactivefront",
-				"ironfurnaces:block/steelfurnaceside",
-				"ironfurnaces:block/steelfurnaceside",
-				"ironfurnaces:block/steelfurnaceside"))
-		.build(new SteelFurnace("furnace.steel.active", furnaceSteelIdle.id + 1, Material.metal, true));
-
+		public static final Block furnaceSteelActive = furnace
+			.setResistance(2000.0F)
+			.setLuminance(13)
+			.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
+			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
+				.withTextures(
+					"ironfurnaces:block/steelfurnacetop",
+					"ironfurnaces:block/steelfurnacebottom",
+					"ironfurnaces:block/steelfurnaceactivefront",
+					"ironfurnaces:block/steelfurnaceside",
+					"ironfurnaces:block/steelfurnaceside",
+					"ironfurnaces:block/steelfurnaceside"))
+			.build(new BlockLogicSteelFurnace("furnace.steel.active", Material.metal, true));
 
 	@Override
     public void onInitialize() {
@@ -177,10 +171,10 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
     @Override
 	public void beforeGameStart() {
 		// Tile Entities
-		EntityHelper.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
-		EntityHelper.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
-		EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
-		EntityHelper.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
+		//EntityHelper.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
+		//EntityHelper.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
+		//EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
+		//EntityHelper.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
 	}
 
 	@Override
@@ -193,13 +187,13 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 		// Furnace Template
 		RecipeBuilderShaped furnace = new RecipeBuilderShaped(MOD_ID, "AAA", "AFA", "AAA");
 		// Iron Furnace
-		furnace.addInput('A', Item.ingotIron).addInput('F', Block.furnaceStoneIdle).create("furnace_iron", furnaceIronIdle.getDefaultStack());
+		furnace.addInput('A', Items.INGOT_IRON).addInput('F', Blocks.FURNACE_STONE_IDLE).create("furnace_iron", furnaceIronIdle.getDefaultStack());
 		// Gold Furnace
-		furnace.addInput('A', Item.ingotGold).addInput('F', furnaceIronIdle).create("furnace_gold", furnaceGoldIdle.getDefaultStack());
+		//furnace.addInput('A', Items.INGOT_GOLD).addInput('F', furnaceIronIdle).create("furnace_gold", furnaceGoldIdle.getDefaultStack());
 		// Diamond Furnace
-		furnace.addInput('A', Item.diamond).addInput('F', furnaceGoldIdle).create("furnace_diamond", furnaceDiamondIdle.getDefaultStack());
+		//furnace.addInput('A', Items.DIAMOND).addInput('F', furnaceGoldIdle).create("furnace_diamond", furnaceDiamondIdle.getDefaultStack());
 		// Steel Furnace
-		furnace.addInput('A', Item.ingotSteel).addInput('F', furnaceGoldIdle).create("furnace_steel", furnaceSteelIdle.getDefaultStack());
+		//furnace.addInput('A', Items.INGOT_STEEL).addInput('F', furnaceGoldIdle).create("furnace_steel", furnaceSteelIdle.getDefaultStack());
 
 	}
 

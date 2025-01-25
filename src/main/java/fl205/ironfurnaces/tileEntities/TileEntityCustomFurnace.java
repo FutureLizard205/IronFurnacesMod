@@ -1,21 +1,21 @@
 package fl205.ironfurnaces.tileEntities;
 
-import fl205.ironfurnaces.blocks.CustomFurnace;
+import fl205.ironfurnaces.blocks.BlockLogicCustomFurnace;
 import java.util.List;
-import net.minecraft.core.block.Block;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntityFurnace;
 import net.minecraft.core.crafting.LookupFuelFurnace;
 import net.minecraft.core.data.registry.Registries;
 import net.minecraft.core.data.registry.recipe.entry.RecipeEntryFurnace;
-import net.minecraft.core.item.Item;
+import net.minecraft.core.item.Items;
 import net.minecraft.core.item.ItemStack;
 
 public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 
 	protected final int speedModifier;
 	protected final int fuelYieldModifier;
-	protected final CustomFurnace furnaceIdle;
-	public TileEntityCustomFurnace(int speedModifier, int fuelYieldModifier, CustomFurnace furnaceIdle){
+	protected final BlockLogicCustomFurnace furnaceIdle;
+	public TileEntityCustomFurnace(int speedModifier, int fuelYieldModifier, BlockLogicCustomFurnace furnaceIdle){
 		this.speedModifier = speedModifier;
 		this.fuelYieldModifier = fuelYieldModifier;
 		this.furnaceIdle = furnaceIdle;
@@ -31,13 +31,13 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 		}
 
 		if (this.worldObj != null && !this.worldObj.isClientSide) {
-			if (this.worldObj.getBlockId(this.x, this.y, this.z) == furnaceIdle.id && this.currentBurnTime == 0 && this.furnaceItemStacks[0] == null && this.furnaceItemStacks[1] != null && this.furnaceItemStacks[1].itemID == Block.netherrack.id) {
+			if (this.worldObj.getBlockId(this.x, this.y, this.z) == furnaceIdle.id() && this.currentBurnTime == 0 && this.furnaceItemStacks[0] == null && this.furnaceItemStacks[1] != null && this.furnaceItemStacks[1].itemID == Blocks.COBBLE_NETHERRACK.id()) {
 				--this.furnaceItemStacks[1].stackSize;
 				if (this.furnaceItemStacks[1].stackSize <= 0) {
 					this.furnaceItemStacks[1] = null;
 				}
 
-				CustomFurnace.updateFurnaceBlockState(true, this.worldObj, this.x, this.y, this.z);
+				BlockLogicCustomFurnace.updateFurnaceBlockState(true, this.worldObj, this.x, this.y, this.z);
 				furnaceUpdated = true;
 			}
 
@@ -46,8 +46,8 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 				if (this.currentBurnTime > 0) {
 					furnaceUpdated = true;
 					if (this.furnaceItemStacks[1] != null) {
-						if (this.furnaceItemStacks[1].getItem() == Item.bucketLava) {
-							this.furnaceItemStacks[1] = new ItemStack(Item.bucket);
+						if (this.furnaceItemStacks[1].getItem() == Items.BUCKET_LAVA) {
+							this.furnaceItemStacks[1] = new ItemStack(Items.BUCKET);
 						} else {
 							--this.furnaceItemStacks[1].stackSize;
 							if (this.furnaceItemStacks[1].stackSize <= 0) {
@@ -71,12 +71,12 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 
 			if (isBurnTimeHigherThan0 != this.currentBurnTime > 0) {
 				furnaceUpdated = true;
-				CustomFurnace.updateFurnaceBlockState(this.currentBurnTime > 0, this.worldObj, this.x, this.y, this.z);
+				BlockLogicCustomFurnace.updateFurnaceBlockState(this.currentBurnTime > 0, this.worldObj, this.x, this.y, this.z);
 			}
 		}
 
 		if (furnaceUpdated) {
-			this.onInventoryChanged();
+			this.setChanged();
 		}
 
 	}
@@ -99,7 +99,7 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 				return true;
 			} else if (!this.furnaceItemStacks[2].isItemEqual(itemstack)) {
 				return false;
-			} else if (this.furnaceItemStacks[2].stackSize < this.getInventoryStackLimit() && this.furnaceItemStacks[2].stackSize < this.furnaceItemStacks[2].getMaxStackSize()) {
+			} else if (this.furnaceItemStacks[2].stackSize < this.getMaxStackSize() && this.furnaceItemStacks[2].stackSize < this.furnaceItemStacks[2].getMaxStackSize()) {
 				return true;
 			} else {
 				return this.furnaceItemStacks[2].stackSize < itemstack.getMaxStackSize();

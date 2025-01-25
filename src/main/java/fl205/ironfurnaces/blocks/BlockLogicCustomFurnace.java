@@ -3,11 +3,11 @@ package fl205.ironfurnaces.blocks;
 import fl205.ironfurnaces.tileEntities.TileEntityCustomFurnace;
 import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.block.BlockTileEntityRotatable;
+import net.minecraft.core.block.BlockLogicRotatable;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
-import net.minecraft.core.entity.EntityItem;
-import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.helper.Side;
@@ -17,14 +17,14 @@ import java.util.Random;
 
 import static fl205.ironfurnaces.IronFurnaces.*;
 
-public abstract class CustomFurnace extends BlockTileEntityRotatable {
+public abstract class BlockLogicCustomFurnace extends BlockLogicRotatable {
 	protected final boolean isActive;
 	protected Random furnaceRand = new Random();
 	protected static boolean keepFurnaceInventory = false;
 	protected final int activeId;
 	protected final int idleID;
-	public CustomFurnace(String key, int id, Material material, boolean flag, int activeID, int idleID) {
-		super(key, id, material);
+	public BlockLogicCustomFurnace(Block<?> block, boolean flag, int activeID, int idleID) {
+		super(block, Material.metal);
 		this.isActive = flag;
 		this.activeId = activeID;
 		this.idleID = idleID;
@@ -36,13 +36,13 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 			case EXPLOSION:
 			case PROPER_TOOL:
 			case SILK_TOUCH:
-				return new ItemStack[]{new ItemStack(Block.blocksList[idleID])};
+				return new ItemStack[]{new ItemStack(Blocks.getBlock(idleID))};
 			default:
 				return null;
 		}
 	}
 
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+	public void animationTick(World world, int x, int y, int z, Random rand) {
 		if (this.isActive) {
 			int l = world.getBlockMetadata(x, y, z);
 			double poxX = (double)x + 0.5;
@@ -67,17 +67,17 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 		}
 	}
 
-	public boolean onBlockRightClicked(World world, int x, int y, int z, EntityPlayer player, Side side, double xPlaced, double yPlaced) {
+	public boolean onBlockRightClicked(World world, int x, int y, int z, Player player, Side side, double xPlaced, double yPlaced) {
 		if (!world.isClientSide) {
-			TileEntityCustomFurnace tileEntityCustomFurnace = (TileEntityCustomFurnace) world.getBlockTileEntity(x, y, z);
-			player.displayGUIFurnace(tileEntityCustomFurnace);
+			TileEntityCustomFurnace tileEntityCustomFurnace = (TileEntityCustomFurnace) world.getTileEntity(x, y, z);
+			player.displayFurnaceScreen(tileEntityCustomFurnace);
 		}
 		return true;
 	}
 
 	public static void updateFurnaceBlockState(boolean lit, World world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
-		TileEntity tileentity = world.getBlockTileEntity(x, y, z);
+		TileEntity tileentity = world.getTileEntity(x, y, z);
 		if (tileentity == null) {
 			String msg = "CustomFurnace is missing Tile Entity at x: " + x + " y: " + y + " z: " + z + ", block will be removed!";
 			if (Global.BUILD_CHANNEL.isUnstableBuild()) {
@@ -89,8 +89,8 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 		} else {
 			keepFurnaceInventory = true;
 			int alreadyLit;
-			int currentId = tileentity.getBlockType().id;
-			if (currentId == furnaceIronIdle.id || currentId == furnaceGoldIdle.id || currentId == furnaceDiamondIdle.id || currentId == furnaceSteelIdle.id) {
+			int currentId = tileentity.getBlockId();
+			if (currentId == furnaceIronIdle.id() || currentId == furnaceGoldIdle.id() || currentId == furnaceDiamondIdle.id() || currentId == furnaceSteelIdle.id()) {
 				alreadyLit = 0;
 			} else {
 				alreadyLit = 1;
@@ -104,10 +104,10 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 			keepFurnaceInventory = false;
 			world.setBlockMetadataWithNotify(x, y, z, meta);
 			tileentity.validate();
-			world.setBlockTileEntity(x, y, z, tileentity);
+			world.setTileEntity(x, y, z, tileentity);
 		}
 	}
-
+	/*
 	public void onBlockRemoved(World world, int x, int y, int z, int data) {
 		if (!keepFurnaceInventory) {
 			TileEntityCustomFurnace tileEntityCustomFurnace = (TileEntityCustomFurnace) world.getBlockTileEntity(x, y, z);
@@ -138,5 +138,5 @@ public abstract class CustomFurnace extends BlockTileEntityRotatable {
 		}
 
 		super.onBlockRemoved(world, x, y, z, data);
-	}
+	}*/
 }
