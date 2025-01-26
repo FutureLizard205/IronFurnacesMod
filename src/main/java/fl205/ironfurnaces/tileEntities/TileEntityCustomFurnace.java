@@ -2,6 +2,8 @@ package fl205.ironfurnaces.tileEntities;
 
 import fl205.ironfurnaces.blocks.BlockLogicCustomFurnace;
 import java.util.List;
+
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntityFurnace;
 import net.minecraft.core.crafting.LookupFuelFurnace;
@@ -14,8 +16,8 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 
 	protected final int speedModifier;
 	protected final int fuelYieldModifier;
-	protected final BlockLogicCustomFurnace furnaceIdle;
-	public TileEntityCustomFurnace(int speedModifier, int fuelYieldModifier, BlockLogicCustomFurnace furnaceIdle){
+	protected final Block furnaceIdle;
+	public TileEntityCustomFurnace(int speedModifier, int fuelYieldModifier, Block furnaceIdle){
 		this.speedModifier = speedModifier;
 		this.fuelYieldModifier = fuelYieldModifier;
 		this.furnaceIdle = furnaceIdle;

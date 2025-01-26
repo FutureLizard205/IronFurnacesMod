@@ -55,6 +55,22 @@ repositories {
 		metadataSources { artifact() }
 	}
 	ivy {
+		url = "https://downloads.betterthanadventure.net/bta-client/${project.bta_channel}/"
+		patternLayout {
+			artifact "/v[revision]/client.jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
+	ivy {
+		url = "https://downloads.betterthanadventure.net/bta-server/${project.bta_channel}/"
+		patternLayout {
+			artifact "/v[revision]/server.jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
+	ivy {
 		url = "https://github.com/Turnip-Labs"
 		patternLayout {
 			artifact "[organisation]/releases/download/v[revision]/[module]-[revision].jar"
@@ -109,7 +125,7 @@ dependencies {
 	mappings loom.layered() {}
 
 	modRuntimeOnly "objects:client:43db9b498cb67058d2e12d394e6507722e71bb45" // https://piston-data.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
-	modImplementation "fabric-loader:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Helper library
 	// modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"

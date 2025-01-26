@@ -6,6 +6,7 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockLogic;
 import net.minecraft.core.block.BlockLogicSupplier;
 import net.minecraft.core.block.Blocks;
+import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.item.Items;
 import net.minecraft.core.sound.BlockSounds;
@@ -64,7 +65,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 		.setImmovable()
 		.setTags(BlockTags.MINEABLE_BY_PICKAXE);
 
-	public static final Block furnaceIronIdle = furnace
+	public static final Block<?> furnaceIronIdle = furnace
 		.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
 			.withTextures(
 				"ironfurnaces:block/ironfurnacetop",
@@ -73,9 +74,9 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 				"ironfurnaces:block/ironfurnaceside",
 				"ironfurnaces:block/ironfurnaceside",
 				"ironfurnaces:block/ironfurnaceside"))
-		.build("furnace.iron.idle", MOD_ID+"furnace_iron_idle", config.getInt("IDs.ironFurnaceIdleID"), BlockLogicIronFurnace::new);
+		.build("furnace.iron.idle", "furnace_iron_idle", config.getInt("IDs.ironFurnaceIdleID"), b -> new BlockLogic(b, Material.metal));
 
-		public static final Block furnaceIronActive = furnace
+		public static final Block<?> furnaceIronActive = furnace
 			.setLuminance(13)
 			.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
 			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
@@ -86,10 +87,10 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/ironfurnaceside",
 					"ironfurnaces:block/ironfurnaceside",
 					"ironfurnaces:block/ironfurnaceside"))
-			.build(new BlockLogicIronFurnace("furnace.iron.active", furnaceIronIdle.id + 1, Material.metal, true));
+			.build("furnace.iron.active", "furnace_iron_active", furnaceIronIdle.id() + 1, b -> new BlockLogic(b, Material.metal));
 
 
-		public static final Block furnaceGoldIdle = furnace
+		public static final Block<?> furnaceGoldIdle = furnace
 			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
 				.withTextures(
 					"ironfurnaces:block/goldfurnacetop",
@@ -98,9 +99,9 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/goldfurnaceside",
 					"ironfurnaces:block/goldfurnaceside",
 					"ironfurnaces:block/goldfurnaceside"))
-			.build(new BlockLogicGoldFurnace("furnace.gold.idle", config.getInt("IDs.goldFurnaceIdleID"), Material.metal, false));
+			.build("furnace.gold.idle", "furnace_golf_idle", config.getInt("IDs.goldFurnaceIdleID"), b -> new BlockLogic(b, Material.metal));
 
-		public static final Block furnaceGoldActive = furnace
+		public static final Block<?> furnaceGoldActive = furnace
 			.setLuminance(13)
 			.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
 			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
@@ -111,9 +112,9 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/goldfurnaceside",
 					"ironfurnaces:block/goldfurnaceside",
 					"ironfurnaces:block/goldfurnaceside"))
-			.build(new BlockLogicGoldFurnace("furnace.gold.active", furnaceGoldIdle.id + 1, Material.metal, true));
+			.build("furnace.gold.active", "furnace.gold.active", furnaceGoldIdle.id() + 1, b -> new BlockLogic(b, Material.metal));
 
-		public static final Block furnaceDiamondIdle = furnace
+		public static final Block<?> furnaceDiamondIdle = furnace
 			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
 				.withTextures(
 					"ironfurnaces:block/diamondfurnacetop",
@@ -122,9 +123,9 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/diamondfurnaceside",
 					"ironfurnaces:block/diamondfurnaceside",
 					"ironfurnaces:block/diamondfurnaceside"))
-			.build(new BlockLogicDiamondFurnace("furnace.diamond.idle", config.getInt("IDs.diamondFurnaceIdleID"), Material.metal, false));
+			.build("furnace.diamond.idle", "furnace_diamond_idle", config.getInt("IDs.diamondFurnaceIdleID"), b -> new BlockLogic(b, Material.metal));
 
-		public static final Block furnaceDiamondActive = furnace
+		public static final Block<?> furnaceDiamondActive = furnace
 			.setLuminance(13)
 			.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
 			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
@@ -135,9 +136,9 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/diamondfurnaceside",
 					"ironfurnaces:block/diamondfurnaceside",
 					"ironfurnaces:block/diamondfurnaceside"))
-			.build(new BlockLogicDiamondFurnace("furnace.diamond.active", furnaceDiamondIdle.id + 1, Material.metal, true));
+			.build("furnace.diamond.active", "furnace_diamond_active", furnaceDiamondIdle.id() + 1, b -> new BlockLogic(b, Material.metal));
 
-		public static final Block furnaceSteelIdle = furnace
+		public static final Block<?> furnaceSteelIdle = furnace
 			.setResistance(2000.0F)
 			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
 				.withTextures(
@@ -147,9 +148,9 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/steelfurnaceside",
 					"ironfurnaces:block/steelfurnaceside",
 					"ironfurnaces:block/steelfurnaceside"))
-			.build(new BlockLogicSteelFurnace("furnace.steel.idle", Material.metal, false));
+			.build("furnace.steel.idle", "furnace_steel_idle", config.getInt("IDs.steelFurnaceIdleID"), b -> new BlockLogic(b, Material.metal));
 
-		public static final Block furnaceSteelActive = furnace
+		public static final Block<?> furnaceSteelActive = furnace
 			.setResistance(2000.0F)
 			.setLuminance(13)
 			.setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
@@ -161,7 +162,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/steelfurnaceside",
 					"ironfurnaces:block/steelfurnaceside",
 					"ironfurnaces:block/steelfurnaceside"))
-			.build(new BlockLogicSteelFurnace("furnace.steel.active", Material.metal, true));
+			.build("furnace.steel.active", "furnace_steel_active", furnaceSteelIdle.id() + 1,b -> new BlockLogic(b, Material.metal));
 
 	@Override
     public void onInitialize() {
