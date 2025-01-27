@@ -1,18 +1,23 @@
 package fl205.ironfurnaces;
 
+import fl205.ironfurnaces.blocks.BlockLogicDiamondFurnace;
+import fl205.ironfurnaces.blocks.BlockLogicGoldFurnace;
+import fl205.ironfurnaces.blocks.BlockLogicSteelFurnace;
+import fl205.ironfurnaces.tileEntities.TileEntityDiamondFurnace;
+import fl205.ironfurnaces.tileEntities.TileEntityGoldFurnace;
+import fl205.ironfurnaces.tileEntities.TileEntityIronFurnace;
+import fl205.ironfurnaces.tileEntities.TileEntitySteelFurnace;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.render.block.model.BlockModelHorizontalRotation;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.block.BlockLogic;
-import net.minecraft.core.block.BlockLogicSupplier;
 import net.minecraft.core.block.Blocks;
-import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.item.Items;
 import net.minecraft.core.sound.BlockSounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
+import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.helper.RecipeBuilder;
 import turniplabs.halplibe.helper.recipeBuilders.RecipeBuilderShaped;
 import turniplabs.halplibe.util.GameStartEntrypoint;
@@ -74,7 +79,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 				"ironfurnaces:block/ironfurnaceside",
 				"ironfurnaces:block/ironfurnaceside",
 				"ironfurnaces:block/ironfurnaceside"))
-		.build("furnace.iron.idle", "furnace_iron_idle", config.getInt("IDs.ironFurnaceIdleID"), b -> new BlockLogic(b, Material.metal));
+		.build("furnace.iron.idle", "furnace_iron_idle", config.getInt("IDs.ironFurnaceIdleID"), b -> new BlockLogicIronFurnace(b, false));
 
 		public static final Block<?> furnaceIronActive = furnace
 			.setLuminance(13)
@@ -87,7 +92,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/ironfurnaceside",
 					"ironfurnaces:block/ironfurnaceside",
 					"ironfurnaces:block/ironfurnaceside"))
-			.build("furnace.iron.active", "furnace_iron_active", furnaceIronIdle.id() + 1, b -> new BlockLogic(b, Material.metal));
+			.build("furnace.iron.active", "furnace_iron_active", furnaceIronIdle.id() + 1, b -> new BlockLogicIronFurnace(b, true));
 
 
 		public static final Block<?> furnaceGoldIdle = furnace
@@ -99,7 +104,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/goldfurnaceside",
 					"ironfurnaces:block/goldfurnaceside",
 					"ironfurnaces:block/goldfurnaceside"))
-			.build("furnace.gold.idle", "furnace_golf_idle", config.getInt("IDs.goldFurnaceIdleID"), b -> new BlockLogic(b, Material.metal));
+			.build("furnace.gold.idle", "furnace_golf_idle", config.getInt("IDs.goldFurnaceIdleID"), b -> new BlockLogicGoldFurnace(b, false));
 
 		public static final Block<?> furnaceGoldActive = furnace
 			.setLuminance(13)
@@ -112,7 +117,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/goldfurnaceside",
 					"ironfurnaces:block/goldfurnaceside",
 					"ironfurnaces:block/goldfurnaceside"))
-			.build("furnace.gold.active", "furnace.gold.active", furnaceGoldIdle.id() + 1, b -> new BlockLogic(b, Material.metal));
+			.build("furnace.gold.active", "furnace.gold.active", furnaceGoldIdle.id() + 1, b -> new BlockLogicGoldFurnace(b, true));
 
 		public static final Block<?> furnaceDiamondIdle = furnace
 			.setBlockModel(block -> new BlockModelHorizontalRotation<>(block)
@@ -123,7 +128,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/diamondfurnaceside",
 					"ironfurnaces:block/diamondfurnaceside",
 					"ironfurnaces:block/diamondfurnaceside"))
-			.build("furnace.diamond.idle", "furnace_diamond_idle", config.getInt("IDs.diamondFurnaceIdleID"), b -> new BlockLogic(b, Material.metal));
+			.build("furnace.diamond.idle", "furnace_diamond_idle", config.getInt("IDs.diamondFurnaceIdleID"), b -> new BlockLogicDiamondFurnace(b, false));
 
 		public static final Block<?> furnaceDiamondActive = furnace
 			.setLuminance(13)
@@ -136,7 +141,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/diamondfurnaceside",
 					"ironfurnaces:block/diamondfurnaceside",
 					"ironfurnaces:block/diamondfurnaceside"))
-			.build("furnace.diamond.active", "furnace_diamond_active", furnaceDiamondIdle.id() + 1, b -> new BlockLogic(b, Material.metal));
+			.build("furnace.diamond.active", "furnace_diamond_active", furnaceDiamondIdle.id() + 1, b -> new BlockLogicDiamondFurnace(b, true));
 
 		public static final Block<?> furnaceSteelIdle = furnace
 			.setResistance(2000.0F)
@@ -148,7 +153,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/steelfurnaceside",
 					"ironfurnaces:block/steelfurnaceside",
 					"ironfurnaces:block/steelfurnaceside"))
-			.build("furnace.steel.idle", "furnace_steel_idle", config.getInt("IDs.steelFurnaceIdleID"), b -> new BlockLogic(b, Material.metal));
+			.build("furnace.steel.idle", "furnace_steel_idle", config.getInt("IDs.steelFurnaceIdleID"), b -> new BlockLogicSteelFurnace(b, false));
 
 		public static final Block<?> furnaceSteelActive = furnace
 			.setResistance(2000.0F)
@@ -162,7 +167,7 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 					"ironfurnaces:block/steelfurnaceside",
 					"ironfurnaces:block/steelfurnaceside",
 					"ironfurnaces:block/steelfurnaceside"))
-			.build("furnace.steel.active", "furnace_steel_active", furnaceSteelIdle.id() + 1,b -> new BlockLogic(b, Material.metal));
+			.build("furnace.steel.active", "furnace_steel_active", furnaceSteelIdle.id() + 1,b -> new BlockLogicSteelFurnace(b, true));
 
 	@Override
     public void onInitialize() {
@@ -172,10 +177,10 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
     @Override
 	public void beforeGameStart() {
 		// Tile Entities
-		//EntityHelper.createTileEntity(TileEntityIronFurnace.class, "Iron Furnace");
-		//EntityHelper.createTileEntity(TileEntityGoldFurnace.class, "Gold Furnace");
-		//EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
-		//EntityHelper.createTileEntity(TileEntitySteelFurnace.class, "Steel Furnace");
+		EntityHelper.createBlockEntity(TileEntityIronFurnace.class, "Iron Furnace");
+		EntityHelper.createBlockEntity(TileEntityGoldFurnace.class, "Gold Furnace");
+		EntityHelper.createBlockEntity(TileEntityDiamondFurnace.class, "Diamond Furnace");
+		EntityHelper.createBlockEntity(TileEntitySteelFurnace.class, "Steel Furnace");
 	}
 
 	@Override
@@ -190,11 +195,11 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint, Recipe
 		// Iron Furnace
 		furnace.addInput('A', Items.INGOT_IRON).addInput('F', Blocks.FURNACE_STONE_IDLE).create("furnace_iron", furnaceIronIdle.getDefaultStack());
 		// Gold Furnace
-		//furnace.addInput('A', Items.INGOT_GOLD).addInput('F', furnaceIronIdle).create("furnace_gold", furnaceGoldIdle.getDefaultStack());
+		furnace.addInput('A', Items.INGOT_GOLD).addInput('F', furnaceIronIdle).create("furnace_gold", furnaceGoldIdle.getDefaultStack());
 		// Diamond Furnace
-		//furnace.addInput('A', Items.DIAMOND).addInput('F', furnaceGoldIdle).create("furnace_diamond", furnaceDiamondIdle.getDefaultStack());
+		furnace.addInput('A', Items.DIAMOND).addInput('F', furnaceGoldIdle).create("furnace_diamond", furnaceDiamondIdle.getDefaultStack());
 		// Steel Furnace
-		//furnace.addInput('A', Items.INGOT_STEEL).addInput('F', furnaceGoldIdle).create("furnace_steel", furnaceSteelIdle.getDefaultStack());
+		furnace.addInput('A', Items.INGOT_STEEL).addInput('F', furnaceGoldIdle).create("furnace_steel", furnaceSteelIdle.getDefaultStack());
 
 	}
 

@@ -12,6 +12,7 @@ import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -19,13 +20,13 @@ import static fl205.ironfurnaces.IronFurnaces.*;
 
 public abstract class BlockLogicCustomFurnace extends BlockLogicRotatable {
 	protected final boolean isActive;
-	protected Random furnaceRand = new Random();
+	//protected Random furnaceRand = new Random();
 	protected static boolean keepFurnaceInventory = false;
 	protected final int activeId;
 	protected final int idleID;
-	public BlockLogicCustomFurnace(Block<?> block, boolean flag, int activeID, int idleID) {
+	public BlockLogicCustomFurnace(Block<?> block, boolean isActive, int activeID, int idleID) {
 		super(block, Material.metal);
-		this.isActive = flag;
+		this.isActive = isActive;
 		this.activeId = activeID;
 		this.idleID = idleID;
 	}
@@ -36,6 +37,7 @@ public abstract class BlockLogicCustomFurnace extends BlockLogicRotatable {
 			case EXPLOSION:
 			case PROPER_TOOL:
 			case SILK_TOUCH:
+			case PISTON_CRUSH:
 				return new ItemStack[]{new ItemStack(Blocks.getBlock(idleID))};
 			default:
 				return null;
@@ -75,7 +77,7 @@ public abstract class BlockLogicCustomFurnace extends BlockLogicRotatable {
 		return true;
 	}
 
-	public static void updateFurnaceBlockState(boolean lit, World world, int x, int y, int z) {
+	public static void updateFurnaceBlockState(boolean lit, @NotNull World world, int x, int y, int z, int idleID) {
 		int meta = world.getBlockMetadata(x, y, z);
 		TileEntity tileentity = world.getTileEntity(x, y, z);
 		if (tileentity == null) {
@@ -84,13 +86,13 @@ public abstract class BlockLogicCustomFurnace extends BlockLogicRotatable {
 				throw new RuntimeException(msg);
 			} else {
 				world.setBlockWithNotify(x, y, z, 0);
-				System.out.println(msg);
+				LOGGER.warn(msg);
 			}
 		} else {
 			keepFurnaceInventory = true;
 			int alreadyLit;
 			int currentId = tileentity.getBlockId();
-			if (currentId == furnaceIronIdle.id() || currentId == furnaceGoldIdle.id() || currentId == furnaceDiamondIdle.id() || currentId == furnaceSteelIdle.id()) {
+			if (tileentity.getBlockId() == idleID) {
 				alreadyLit = 0;
 			} else {
 				alreadyLit = 1;

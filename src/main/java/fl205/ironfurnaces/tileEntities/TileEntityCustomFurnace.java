@@ -16,8 +16,8 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 
 	protected final int speedModifier;
 	protected final int fuelYieldModifier;
-	protected final Block furnaceIdle;
-	public TileEntityCustomFurnace(int speedModifier, int fuelYieldModifier, Block furnaceIdle){
+	protected final Block<?> furnaceIdle;
+	public TileEntityCustomFurnace(int speedModifier, int fuelYieldModifier, Block<?> furnaceIdle){
 		this.speedModifier = speedModifier;
 		this.fuelYieldModifier = fuelYieldModifier;
 		this.furnaceIdle = furnaceIdle;
@@ -39,7 +39,7 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 					this.furnaceItemStacks[1] = null;
 				}
 
-				BlockLogicCustomFurnace.updateFurnaceBlockState(true, this.worldObj, this.x, this.y, this.z);
+				this.updateFurnace(true);
 				furnaceUpdated = true;
 			}
 
@@ -73,7 +73,7 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 
 			if (isBurnTimeHigherThan0 != this.currentBurnTime > 0) {
 				furnaceUpdated = true;
-				BlockLogicCustomFurnace.updateFurnaceBlockState(this.currentBurnTime > 0, this.worldObj, this.x, this.y, this.z);
+				this.updateFurnace(false);
 			}
 		}
 
@@ -107,6 +107,15 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 				return this.furnaceItemStacks[2].stackSize < itemstack.getMaxStackSize();
 			}
 		}
+	}
+
+	protected void updateFurnace(boolean forceLit) {
+		if (this.worldObj != null) {
+			BlockLogicCustomFurnace.updateFurnaceBlockState(forceLit | this.currentBurnTime > 0, this.worldObj, this.x, this.y, this.z, furnaceIdle.id());
+		} else if (this.carriedBlock != null) {
+			this.carriedBlock.blockId = forceLit | this.currentBurnTime > 0 ? furnaceIdle.id() + 1 : furnaceIdle.id();
+		}
+
 	}
 
 	private int getBurnTimeFromItem(ItemStack itemStack) {
