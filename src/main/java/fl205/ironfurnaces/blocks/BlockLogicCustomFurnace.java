@@ -20,8 +20,7 @@ import static fl205.ironfurnaces.IronFurnaces.*;
 
 public abstract class BlockLogicCustomFurnace extends BlockLogicRotatable {
 	protected final boolean isActive;
-	//protected Random furnaceRand = new Random();
-	protected static boolean keepFurnaceInventory = false;
+	public static boolean keepFurnaceInventory = false;
 	protected final int activeId;
 	protected final int idleID;
 	public BlockLogicCustomFurnace(Block<?> block, boolean isActive, int activeID, int idleID) {
@@ -109,36 +108,4 @@ public abstract class BlockLogicCustomFurnace extends BlockLogicRotatable {
 			world.setTileEntity(x, y, z, tileentity);
 		}
 	}
-	/*
-	public void onBlockRemoved(World world, int x, int y, int z, int data) {
-		if (!keepFurnaceInventory) {
-			TileEntityCustomFurnace tileEntityCustomFurnace = (TileEntityCustomFurnace) world.getBlockTileEntity(x, y, z);
-
-			for (int l = 0; l < tileEntityCustomFurnace.getSizeInventory(); ++l) {
-				ItemStack itemstack = tileEntityCustomFurnace.getStackInSlot(l);
-				if (itemstack != null) {
-					float f = this.furnaceRand.nextFloat() * 0.8F + 0.1F;
-					float f1 = this.furnaceRand.nextFloat() * 0.8F + 0.1F;
-					float f2 = this.furnaceRand.nextFloat() * 0.8F + 0.1F;
-
-					while (itemstack.stackSize > 0) {
-						int i1 = this.furnaceRand.nextInt(21) + 10;
-						if (i1 > itemstack.stackSize) {
-							i1 = itemstack.stackSize;
-						}
-
-						itemstack.stackSize -= i1;
-						EntityItem entityitem = new EntityItem(world, (float) x + f, (float) y + f1, (float) z + f2, new ItemStack(itemstack.itemID, i1, itemstack.getMetadata()));
-						float f3 = 0.05F;
-						entityitem.xd = (float) this.furnaceRand.nextGaussian() * f3;
-						entityitem.yd = (float) this.furnaceRand.nextGaussian() * f3 + 0.2F;
-						entityitem.zd = (float) this.furnaceRand.nextGaussian() * f3;
-						world.entityJoinedWorld(entityitem);
-					}
-				}
-			}
-		}
-
-		super.onBlockRemoved(world, x, y, z, data);
-	}*/
 }

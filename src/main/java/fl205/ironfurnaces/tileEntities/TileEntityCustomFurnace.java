@@ -2,6 +2,7 @@ package fl205.ironfurnaces.tileEntities;
 
 import fl205.ironfurnaces.blocks.BlockLogicCustomFurnace;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
@@ -9,11 +10,13 @@ import net.minecraft.core.block.entity.TileEntityFurnace;
 import net.minecraft.core.crafting.LookupFuelFurnace;
 import net.minecraft.core.data.registry.Registries;
 import net.minecraft.core.data.registry.recipe.entry.RecipeEntryFurnace;
+import net.minecraft.core.entity.EntityItem;
 import net.minecraft.core.item.Items;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.world.World;
 
 public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
-
+	private final Random random = new Random();
 	protected final int speedModifier;
 	protected final int fuelYieldModifier;
 	protected final Block<?> furnaceIdle;
@@ -120,5 +123,34 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 
 	private int getBurnTimeFromItem(ItemStack itemStack) {
 		return itemStack == null ? 0 : ((fuelYieldModifier * (LookupFuelFurnace.instance.getFuelYield(itemStack.getItem().id)))/speedModifier);
+	}
+
+	public void dropContents(World world, int x, int y, int z) {
+		if (!BlockLogicCustomFurnace.keepFurnaceInventory) {
+			for(int l = 0; l < this.getContainerSize(); ++l) {
+				ItemStack itemstack = this.getItem(l);
+				if (itemstack != null) {
+					float f = this.random.nextFloat() * 0.8F + 0.1F;
+					float f1 = this.random.nextFloat() * 0.8F + 0.1F;
+					float f2 = this.random.nextFloat() * 0.8F + 0.1F;
+
+					while(itemstack.stackSize > 0) {
+						int i1 = this.random.nextInt(21) + 10;
+						if (i1 > itemstack.stackSize) {
+							i1 = itemstack.stackSize;
+						}
+
+						itemstack.stackSize -= i1;
+						EntityItem entityItem = new EntityItem(world, (float)x + f, (float)y + f1, (float)z + f2, new ItemStack(itemstack.itemID, i1, itemstack.getMetadata()));
+						float f3 = 0.05F;
+						entityItem.xd = (float)this.random.nextGaussian() * f3;
+						entityItem.yd = (float)this.random.nextGaussian() * f3 + 0.2F;
+						entityItem.zd = (float)this.random.nextGaussian() * f3;
+						world.entityJoinedWorld(entityItem);
+					}
+				}
+			}
+		}
+
 	}
 }
