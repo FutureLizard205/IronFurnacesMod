@@ -116,7 +116,7 @@ dependencies {
 	implementation("turniplabs:halplibe:${project.halplibe_version}")
 
 	// BTWaila
-	// modImplementation "BTWaila:btwaila:${project.btwaila_version}"
+	compileOnly "BTWaila:btwaila:${project.btwaila_version}"
 
 	modImplementation("turniplabs:modmenu-bta:${project.mod_menu_version}")
 
