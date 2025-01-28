@@ -4,7 +4,6 @@ import fl205.ironfurnaces.blocks.BlockLogicCustomFurnace;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntityFurnace;
 import net.minecraft.core.crafting.LookupFuelFurnace;
@@ -19,14 +18,13 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 	private final Random random = new Random();
 	protected final int speedModifier;
 	protected final int fuelYieldModifier;
-	protected final Block<?> furnaceIdle;
-	public TileEntityCustomFurnace(int speedModifier, int fuelYieldModifier, Block<?> furnaceIdle){
+	protected final int idleID;
+	public TileEntityCustomFurnace(int speedModifier, int fuelYieldModifier, int idleID){
 		this.speedModifier = speedModifier;
 		this.fuelYieldModifier = fuelYieldModifier;
-		this.furnaceIdle = furnaceIdle;
+		this.idleID = idleID;
 		maxCookTime = 20000 / speedModifier;
 	}
-	public abstract String getInvName();
 
 	public void tick() {
 		boolean isBurnTimeHigherThan0 = this.currentBurnTime > 0;
@@ -35,8 +33,8 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 			--this.currentBurnTime;
 		}
 
-		if (this.worldObj != null && !this.worldObj.isClientSide) {
-			if (this.worldObj.getBlockId(this.x, this.y, this.z) == furnaceIdle.id() && this.currentBurnTime == 0 && this.furnaceItemStacks[0] == null && this.furnaceItemStacks[1] != null && this.furnaceItemStacks[1].itemID == Blocks.COBBLE_NETHERRACK.id()) {
+		if (this.worldObj == null || !this.worldObj.isClientSide) {
+			if ((this.worldObj == null || this.worldObj.getBlockId(this.x, this.y, this.z) == idleID) && this.currentBurnTime == 0 && this.furnaceItemStacks[0] == null && this.furnaceItemStacks[1] != null && this.furnaceItemStacks[1].itemID == Blocks.COBBLE_NETHERRACK.id()) {
 				--this.furnaceItemStacks[1].stackSize;
 				if (this.furnaceItemStacks[1].stackSize <= 0) {
 					this.furnaceItemStacks[1] = null;
@@ -114,11 +112,10 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 
 	protected void updateFurnace(boolean forceLit) {
 		if (this.worldObj != null) {
-			BlockLogicCustomFurnace.updateFurnaceBlockState(forceLit | this.currentBurnTime > 0, this.worldObj, this.x, this.y, this.z, furnaceIdle.id());
+			BlockLogicCustomFurnace.updateFurnaceBlockState(forceLit | this.currentBurnTime > 0, this.worldObj, this.x, this.y, this.z, idleID);
 		} else if (this.carriedBlock != null) {
-			this.carriedBlock.blockId = forceLit | this.currentBurnTime > 0 ? furnaceIdle.id() + 1 : furnaceIdle.id();
+			this.carriedBlock.blockId = forceLit | this.currentBurnTime > 0 ? idleID + 1 : idleID;
 		}
-
 	}
 
 	private int getBurnTimeFromItem(ItemStack itemStack) {

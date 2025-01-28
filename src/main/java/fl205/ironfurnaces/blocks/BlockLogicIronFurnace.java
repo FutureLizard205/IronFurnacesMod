@@ -7,7 +7,7 @@ import static fl205.ironfurnaces.IronFurnaces.config;
 
 public class BlockLogicIronFurnace extends BlockLogicCustomFurnace {
 	public BlockLogicIronFurnace(Block<?> block, boolean isActive) {
-		super(block, isActive, config.getInt("IDs.ironFurnaceIdleID") + 1, config.getInt("IDs.ironFurnaceIdleID"));
+		super(block, isActive, config.getInt("IDs.ironFurnaceIdleID"));
 		block.withEntity(TileEntityIronFurnace::new);
 	}
 }

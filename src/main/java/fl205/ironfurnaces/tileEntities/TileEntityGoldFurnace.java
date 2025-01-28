@@ -6,9 +6,6 @@ import static fl205.ironfurnaces.IronFurnaces.config;
 
 public class TileEntityGoldFurnace extends TileEntityCustomFurnace {
 	public TileEntityGoldFurnace(){
-		super(config.getInt("Speed.goldFurnace"), config.getInt("Fuel Yield.goldFurnace"), IronFurnaces.furnaceGoldIdle);
-	}
-	public String getInvName() {
-		return "Gold Furnace";
+		super(config.getInt("Speed.goldFurnace"), config.getInt("Fuel Yield.goldFurnace"), IronFurnaces.furnaceGoldIdle.id());
 	}
 }

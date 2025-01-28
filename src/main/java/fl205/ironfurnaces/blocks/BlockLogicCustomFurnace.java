@@ -21,15 +21,15 @@ import static fl205.ironfurnaces.IronFurnaces.*;
 public abstract class BlockLogicCustomFurnace extends BlockLogicRotatable {
 	protected final boolean isActive;
 	public static boolean keepFurnaceInventory = false;
-	protected final int activeId;
 	protected final int idleID;
-	public BlockLogicCustomFurnace(Block<?> block, boolean isActive, int activeID, int idleID) {
+
+	public BlockLogicCustomFurnace(Block<?> block, boolean isActive, int idleID) {
 		super(block, Material.metal);
 		this.isActive = isActive;
-		this.activeId = activeID;
 		this.idleID = idleID;
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public ItemStack[] getBreakResult(World world, EnumDropCause dropCause, int x, int y, int z, int meta, TileEntity tileEntity) {
 		switch (dropCause) {
 			case PICK_BLOCK:
@@ -46,23 +46,23 @@ public abstract class BlockLogicCustomFurnace extends BlockLogicRotatable {
 	public void animationTick(World world, int x, int y, int z, Random rand) {
 		if (this.isActive) {
 			int l = world.getBlockMetadata(x, y, z);
-			double poxX = (double)x + 0.5;
-			double posY = (double)y + 0.0 + (double)(rand.nextFloat() * 6.0F / 16.0F);
-			double posZ = (double)z + 0.5;
-			double f3 = 0.5199999809265137;
+			double poxX = (double) x + (double) 0.5F;
+			double posY = (double) y + (double) 0.0F + (double) (rand.nextFloat() * 6.0F / 16.0F);
+			double posZ = (double) z + (double) 0.5F;
+			double f3 = 0.52F;
 			double f4 = (rand.nextFloat() * 0.6F - 0.3F);
 			if (l == 4) {
-				world.spawnParticle("smoke", poxX - f3, posY, posZ + f4, 0.0, 0.0, 0.0, 0);
-				world.spawnParticle("flame", poxX - f3, posY, posZ + f4, 0.0, 0.0, 0.0, 0);
+				world.spawnParticle("smoke", poxX - f3, posY, posZ + f4, 0.0F, 0.0F, 0.0F, 0);
+				world.spawnParticle("flame", poxX - f3, posY, posZ + f4, 0.0F, 0.0F, 0.0F, 0);
 			} else if (l == 5) {
-				world.spawnParticle("smoke", poxX + f3, posY, posZ + f4, 0.0, 0.0, 0.0, 0);
-				world.spawnParticle("flame", poxX + f3, posY, posZ + f4, 0.0, 0.0, 0.0, 0);
+				world.spawnParticle("smoke", poxX + f3, posY, posZ + f4, 0.0F, 0.0F, 0.0F, 0);
+				world.spawnParticle("flame", poxX + f3, posY, posZ + f4, 0.0F, 0.0F, 0.0F, 0);
 			} else if (l == 2) {
-				world.spawnParticle("smoke", poxX + f4, posY, posZ - f3, 0.0, 0.0, 0.0, 0);
-				world.spawnParticle("flame", poxX + f4, posY, posZ - f3, 0.0, 0.0, 0.0, 0);
+				world.spawnParticle("smoke", poxX + f4, posY, posZ - f3, 0.0F, 0.0F, 0.0F, 0);
+				world.spawnParticle("flame", poxX + f4, posY, posZ - f3, 0.0F, 0.0F, 0.0F, 0);
 			} else if (l == 3) {
-				world.spawnParticle("smoke", poxX + f4, posY, posZ + f3, 0.0, 0.0, 0.0, 0);
-				world.spawnParticle("flame", poxX + f4, posY, posZ + f3, 0.0, 0.0, 0.0, 0);
+				world.spawnParticle("smoke", poxX + f4, posY, posZ + f3, 0.0F, 0.0F, 0.0F, 0);
+				world.spawnParticle("flame", poxX + f4, posY, posZ + f3, 0.0F, 0.0F, 0.0F, 0);
 			}
 
 		}
