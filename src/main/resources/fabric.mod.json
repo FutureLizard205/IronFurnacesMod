@@ -28,7 +28,10 @@
 			"fl205.ironfurnaces.IronFurnaces"
 		],
 		"recipesReady": [
-			"fl205.ironfurnaces.IronFurnaces"
+			"fl205.ironfurnaces.IronFurnacesRecipes"
+		],
+		"initModels": [
+			"fl205.ironfurnaces.IronFurnacesBlockModels"
 		],
 		"btwaila": [
 			"fl205.ironfurnaces.modded.BTWaila.WailaPlugin"
