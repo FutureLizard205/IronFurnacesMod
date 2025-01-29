@@ -25,10 +25,10 @@ All of the values in the table above can be changed in the TOML config file.
 The ID for the furnace's active block is always 1 + the respective idle block's ID.
 
 ### Known Bugs / Issues
-- Doesn't work with halplibe version 5.1.0
+- None :)
 
 ## Dependencies for latest version:
-- [HalpLibe](https://github.com/Turnip-Labs/bta-halplibe) = 5.0.0
+- [HalpLibe](https://github.com/Turnip-Labs/bta-halplibe) >= 5.1.0
 
 ## Recommended:
 - [BTWaila](https://github.com/ToufouMaster/BTWaila) (once updated to 7.3)
