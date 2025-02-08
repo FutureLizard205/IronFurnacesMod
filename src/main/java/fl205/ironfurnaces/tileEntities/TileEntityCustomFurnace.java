@@ -44,7 +44,7 @@ public abstract class TileEntityCustomFurnace extends TileEntityFurnace {
 				furnaceUpdated = true;
 			}
 
-			if (this.currentBurnTime == 0 && this.canSmelt()) {
+			if (this.currentBurnTime == 0 && this.furnaceItemStacks[1] != null && this.canSmelt()) {
 				this.maxBurnTime = this.currentBurnTime = this.getBurnTimeFromItem(this.furnaceItemStacks[1]);
 				if (this.currentBurnTime > 0) {
 					furnaceUpdated = true;
