@@ -117,10 +117,10 @@ public class IronFurnaces implements ModInitializer, GameStartEntrypoint {
     @Override
 	public void beforeGameStart() {
 		// Tile Entities
-		EntityHelper.createTileEntity(TileEntityIronFurnace.class,  new NamespaceID(MOD_ID, "furnace_iron"));
-		EntityHelper.createTileEntity(TileEntityGoldFurnace.class, new NamespaceID(MOD_ID, "furnace_gold"));
-		EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, new NamespaceID(MOD_ID, "furnace_diamond"));
-		EntityHelper.createTileEntity(TileEntitySteelFurnace.class, new NamespaceID(MOD_ID, "furnace_steel"));
+		EntityHelper.createTileEntity(TileEntityIronFurnace.class,  NamespaceID.getPermanent(MOD_ID, "furnace_iron"));
+		EntityHelper.createTileEntity(TileEntityGoldFurnace.class, NamespaceID.getPermanent(MOD_ID, "furnace_gold"));
+		EntityHelper.createTileEntity(TileEntityDiamondFurnace.class, NamespaceID.getPermanent(MOD_ID, "furnace_diamond"));
+		EntityHelper.createTileEntity(TileEntitySteelFurnace.class, NamespaceID.getPermanent(MOD_ID, "furnace_steel"));
 	}
 
 	@Override
